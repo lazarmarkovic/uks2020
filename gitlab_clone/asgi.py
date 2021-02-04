@@ -1,5 +1,5 @@
 """
-ASGI config for github_clone project.
+ASGI config for gitlab_clone project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'github_clone.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gitlab_clone.settings')
 
 application = get_asgi_application()
