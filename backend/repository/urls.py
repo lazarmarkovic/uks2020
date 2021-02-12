@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views.repo_views import *
+from repository.views.repo_views import *
+
 
 urlpatterns = [
-    path('repos/<int:repo_id>/', getOneRepository, name='getOneRepository'),
-    path('repos/user/<str:username>/',
-         getAllRepositories, name='getAllRepositories'),
+    path('<int:repo_id>', get_one_repo, name='get_one_repo'),
+    path('user/<str:username>', get_all_repos, name='get_all_repos'),
 ]

@@ -1,4 +1,4 @@
-from .models import Repository
+from repository.models import Repository
 from rest_framework import serializers
 
 
