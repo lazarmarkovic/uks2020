@@ -9,4 +9,6 @@ urlpatterns = [
     path('create', create_repo, name='create_repo'),
     path('<int:repo_id>/update', update_repo, name='update_repo'),
     path('<int:repo_id>/delete', delete_repo, name='delete_repo'),
+
+    path('<int:repo_id>/load', load_repo, name='load_repo'),
 ]

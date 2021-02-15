@@ -9,7 +9,7 @@ from rest_framework.decorators import (
 
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from repository.models import Repository
+from repository.models import Repository, Branch, Commit
 from repository.serializers.repo_serializers import (
     RepositorySerializer,
     RepositoryCreateSerializer,
@@ -19,6 +19,11 @@ from repository.serializers.repo_serializers import (
 from users.serializers import UserSerializer
 
 from backend.exceptions import GeneralException
+
+from datetime import datetime
+import requests
+import re
+import json
 
 
 @api_view(['GET'])
@@ -94,3 +99,47 @@ def delete_repo(request, repo_id):
     repo.delete()
 
     return Response()
+
+
+# Load repos
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def load_repo(request, repo_id):
+    repo = get_object_or_404(Repository, pk=repo_id)
+
+    groups = re.findall(r"^https:\/\/github.com\/(.*)\/(.*)", repo.url)
+    print(groups)
+
+    remote_username = groups[0][0]
+    remote_repo_name = groups[0][1]
+
+    branches_resp = requests.get(
+        'https://api.github.com/repos/{0}/{1}/branches'.format(remote_username, remote_repo_name))
+
+    for b in branches_resp.json():
+        branch = Branch.objects.create(
+            name=b['name'],
+            creator=request.user,
+            repo=repo,
+            last_commit=None,
+        )
+        branch.save()
+
+        commits_resp = requests.get(
+            'https://api.github.com/repos/{0}/{1}/commits?sha={2}'
+            .format(remote_username, remote_repo_name, b['name']))
+
+        for c in commits_resp.json():
+            print(c['commit']['message'])
+            commit = Commit.objects.create(
+                message=c['commit']['message'],
+                hash=c['sha'],
+                timestamp=datetime.strptime(
+                    c['commit']['author']['date'], '%Y-%m-%dT%H:%M:%SZ'),
+                author_name=c['commit']['author']['name'],
+                author_email=c['commit']['author']['email'],
+                branch=branch,
+            )
+
+    return Response(commits_resp.json())

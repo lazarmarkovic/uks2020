@@ -23,6 +23,9 @@ class Branch(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     repo = models.ForeignKey(Repository, on_delete=models.CASCADE)
 
+    last_commit = models.ForeignKey(
+        'Commit', on_delete=models.CASCADE, related_name="last_commit_id", null=True)
+
     class Meta:
         ordering = ['-id']
 
@@ -35,7 +38,9 @@ class Commit(models.Model):
     hash = models.CharField(max_length=1024)
     timestamp = models.DateTimeField()
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author_name = models.CharField(max_length=1024)
+    author_email = models.CharField(max_length=1024)
+
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
     class Meta:
