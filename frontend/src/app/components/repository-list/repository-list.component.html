@@ -1,0 +1,38 @@
+<div class="mat-elevation-z8">
+  <button
+    mat-icon-button
+    aria-label="Refresh repo list"
+    (click)="refreshTable()"
+  >
+    <mat-icon>refresh</mat-icon>
+  </button>
+  <table mat-table [dataSource]="dataSource">
+    <!-- name Column -->
+    <ng-container matColumnDef="name" class="task-table-row">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action" class="task-table-row">
+      <th mat-header-cell *matHeaderCellDef>Perform task</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          aria-label="Action"
+          (click)="viewForm(element.name)"
+        >
+          <mat-icon>settings</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

@@ -59,7 +59,7 @@ def create_repo(request):
         name=repo_ser.data['name'],
         description=repo_ser.data['description'],
         url=repo_ser.data['url'],
-        private=repo_ser.data['private'],
+        is_private=repo_ser.data['is_private'],
         user=request.user,
     )
 
@@ -82,7 +82,7 @@ def update_repo(request, repo_id):
 
     repo.name = repo_ser.data['name']
     repo.description = repo_ser.data['description']
-    repo.private = repo_ser.data['private']
+    repo.is_private = repo_ser.data['is_private']
     repo.save()
 
     repo.refresh_from_db()

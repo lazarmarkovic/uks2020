@@ -6,7 +6,7 @@ class Repository(models.Model):
     name = models.CharField(max_length=512)
     description = models.CharField(max_length=1024)
     url = models.CharField(max_length=512)
-    private = models.BooleanField(default=False)
+    is_private = models.BooleanField(default=False)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
