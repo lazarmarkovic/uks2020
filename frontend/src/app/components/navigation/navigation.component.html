@@ -18,6 +18,18 @@
         (click)="router.navigate(['repos'], { relativeTo: activeRoute })"
         >Repositories</a
       >
+
+      <a
+        mat-list-item
+        (click)="router.navigate(['branches'], { relativeTo: activeRoute })"
+        >Branches</a
+      >
+
+      <a
+        mat-list-item
+        (click)="router.navigate(['commits'], { relativeTo: activeRoute })"
+        >Commits</a
+      >
       <a mat-list-item (click)="startAuthorRegistration()">Register author</a>
       <a mat-list-item (click)="startReaderRegistration()">Register reader</a>
       <a mat-list-item (click)="startWorkPublishing()">Publish work</a>

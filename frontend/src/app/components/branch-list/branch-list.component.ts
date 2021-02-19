@@ -4,28 +4,29 @@ import {MatTableDataSource} from '@angular/material/table';
 import {Router, ActivatedRoute} from '@angular/router';
 
 import {User} from '../../models/user.model';
-import {RepoService} from '../../services/repo.service';
+import {BranchService} from '../../services/branch.service';
 import {AuthService} from '../../services/auth.service';
 import { Repo } from 'src/app/models/repo.model';
 
 import {ToastrService} from 'ngx-toastr';
+import { Branch } from 'src/app/models/branch.model';
 
 
-export interface RepoElement {
+export interface BranchElement {
   id: string;
   name: string;
   creationTime: Date;
 }
 
 @Component({
-  selector: 'app-repository-list',
-  templateUrl: './repository-list.component.html',
-  styleUrls: ['./repository-list.component.css']
+  selector: 'app-branch-list',
+  templateUrl: './branch-list.component.html',
+  styleUrls: ['./branch-list.component.css']
 })
-export class RepositoryListComponent implements OnInit, AfterViewInit {
+export class BranchListComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['name'];
-  dataSource = new MatTableDataSource<Repo>([]);
+  dataSource = new MatTableDataSource<Branch>([]);
   user: User = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
@@ -36,7 +37,7 @@ export class RepositoryListComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private repoService: RepoService,
+    private branchService: BranchService,
     private authService: AuthService,
     private router: Router,
     public activeRoute: ActivatedRoute,
@@ -48,30 +49,30 @@ export class RepositoryListComponent implements OnInit, AfterViewInit {
     if (this.user == undefined) {
       this.tService.info('User not logged in', 'Error');
     } else {
-      this.getRepos();
+      this.getBranches();
     }
   }
 
-  getRepos(): void {
-    this.repoService
-      .getAll(this.user.username)
+  getBranches(): void {
+    this.branchService
+      .getAll(7)
       .subscribe(
-        (response: Repo[]) => {
-          this.dataSource = new MatTableDataSource<Repo>(response);
+        (response: Branch[]) => {
+          this.dataSource = new MatTableDataSource<Branch>(response);
           this.dataSource.paginator = this.paginator;
         },
         error => {
-          console.log('Repos load error:');
+          console.log('Branches load error:');
           console.log(error);
         }
       );
   }
 
   viewForm(repoId: string): void {
-    this.router.navigate(['/api/repos/' + repoId]);
+    this.router.navigate(['/api/branches/' + repoId]);
   }
 
   refreshTable(): void {
-    this.getRepos();
+    this.getBranches();
   }
 }

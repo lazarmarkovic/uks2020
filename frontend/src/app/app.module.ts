@@ -14,6 +14,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { LoginComponent } from './components/login/login.component';
+import { RepositoryListComponent } from './components/repository-list/repository-list.component';
+import { BranchListComponent } from './components/branch-list/branch-list.component';
+import { CommitListComponent } from './components/commit-list/commit-list.component';
 
 
 /* Material design imports */
@@ -31,7 +34,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RepositoryListComponent } from './components/repository-list/repository-list.component';
+
 
 @NgModule({
   declarations: [
@@ -39,6 +42,8 @@ import { RepositoryListComponent } from './components/repository-list/repository
     NavigationComponent,
     LoginComponent,
     RepositoryListComponent,
+    BranchListComponent,
+    CommitListComponent,
   ],
   imports: [
     BrowserModule,
