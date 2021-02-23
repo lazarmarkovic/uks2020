@@ -5,6 +5,8 @@ import {LoginComponent} from './components/login/login.component';
 import {RepositoryListComponent} from './components/repository-list/repository-list.component';
 import {BranchListComponent} from './components/branch-list/branch-list.component';
 import {CommitListComponent} from './components/commit-list/commit-list.component';
+import { NewRepoFormComponent } from './components/new-repo-form/new-repo-form.component';
+
 
 
 
@@ -12,9 +14,10 @@ import {CommitListComponent} from './components/commit-list/commit-list.componen
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'repos', component: RepositoryListComponent},
-  {path: 'branches', component: BranchListComponent},
-  {path: 'commits', component: CommitListComponent},
+  {path: 'repos/:repo/branches', component: BranchListComponent},
+  {path: 'repos/:repo/branches/:branch/commits', component: CommitListComponent},
 
+  {path: 'repos/add', component: NewRepoFormComponent},
 
 ];
 

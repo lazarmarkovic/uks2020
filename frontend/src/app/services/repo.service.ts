@@ -12,4 +12,18 @@ export class RepoService {
   getAll(username: string): Observable<any> {
     return this.httpClient.get(`/api/repos/user/${username}/get-all`);
   }
+
+  create(
+    name: string, 
+    description: string, 
+    url: string, 
+    is_private: boolean): Observable<any> {
+      
+    return this.httpClient.post('/api/repos/create', {
+      name,
+      description,
+      url,
+      is_private,
+    })
+  }
 }

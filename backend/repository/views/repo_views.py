@@ -16,6 +16,9 @@ from repository.serializers.repo_serializers import (
     RepositoryUpdateSerializer,
 )
 
+from repository.serializers.branch_serializers import BranchSerializer
+from repository.serializers.commit_serializers import CommitSerializer
+
 from users.serializers import UserSerializer
 
 from backend.exceptions import GeneralException
@@ -24,6 +27,8 @@ from datetime import datetime
 import requests
 import re
 import json
+
+import pytz
 
 
 @api_view(['GET'])
@@ -55,6 +60,10 @@ def create_repo(request):
     if not repo_ser.is_valid():
         raise GeneralException("Invalid request.")
 
+    found_repos = Repository.objects.filter(name=repo_ser.data['name'])
+    if len(found_repos) > 0:
+        raise GeneralException("Repository with given name already exists.")
+
     repo = Repository.objects.create(
         name=repo_ser.data['name'],
         description=repo_ser.data['description'],
@@ -64,6 +73,7 @@ def create_repo(request):
     )
 
     repo.save()
+    load_repo(repo, request.user)
 
     serializer = RepositorySerializer(repo, many=False)
     return Response(serializer.data)
@@ -101,18 +111,25 @@ def delete_repo(request, repo_id):
     return Response()
 
 
-# Load repos
-@api_view(['GET'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
-def load_repo(request, repo_id):
-    repo = get_object_or_404(Repository, pk=repo_id)
+def load_repo_readme(remote_username, remote_repo_name):
+    # Fetch readme
+    readme_info_resp = requests.get(
+        'https://api.github.com/repos/{0}/{1}/readme'.format(remote_username, remote_repo_name))
 
+    readme_info = readme_info_resp.json()
+    readme_text_resp = requests.get(readme_info['download_url'])
+
+    return readme_text_resp.text
+
+
+def load_repo(repo, user):
     groups = re.findall(r"^https:\/\/github.com\/(.*)\/(.*)", repo.url)
-    print(groups)
-
     remote_username = groups[0][0]
     remote_repo_name = groups[0][1]
+
+    # Get and set README
+    repo.readme = load_repo_readme(remote_username, remote_repo_name)
+    repo.save()
 
     branches_resp = requests.get(
         'https://api.github.com/repos/{0}/{1}/branches'.format(remote_username, remote_repo_name))
@@ -120,10 +137,11 @@ def load_repo(request, repo_id):
     for b in branches_resp.json():
         branch = Branch.objects.create(
             name=b['name'],
-            creator=request.user,
+            creator=user,
             repo=repo,
             last_commit=None,
         )
+
         branch.save()
 
         commits_resp = requests.get(
@@ -131,15 +149,52 @@ def load_repo(request, repo_id):
             .format(remote_username, remote_repo_name, b['name']))
 
         for c in commits_resp.json():
-            print(c['commit']['message'])
+            c_time = datetime.strptime(
+                c['commit']['author']['date'], '%Y-%m-%dT%H:%M:%SZ')
+
+            timezone = pytz.timezone("Europe/Belgrade")
+            c_time_zoned = timezone.localize(c_time)
+
             commit = Commit.objects.create(
                 message=c['commit']['message'],
                 hash=c['sha'],
-                timestamp=datetime.strptime(
-                    c['commit']['author']['date'], '%Y-%m-%dT%H:%M:%SZ'),
-                author_name=c['commit']['author']['name'],
+                timestamp=c_time_zoned,
                 author_email=c['commit']['author']['email'],
                 branch=branch,
             )
 
+    # Add latest commit to branch
+    for b in branches_resp.json():
+        branches = Branch.objects.filter(
+            repo__name=repo.name, name=b['name'])
+
+        commits = Commit.objects.filter(
+            branch__name=b['name'], hash=b['commit']['sha'])
+
+        if len(branches) > 0:
+            if len(commits) > 0:
+                branches[0].last_commit = commits[0]
+                branches[0].save()
+
     return Response(commits_resp.json())
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_all_branches(request, repo_name):
+    repos = Branch.objects.filter(repo__name=repo_name)
+
+    serializer = BranchSerializer(repos, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_all_commits(request, repo_name, branch_name):
+    repos = Commit.objects.filter(
+        branch__repo__name=repo_name).filter(branch__name=branch_name.replace('~', '/'))
+
+    serializer = CommitSerializer(repos, many=True)
+    return Response(serializer.data)

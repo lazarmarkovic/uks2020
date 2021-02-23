@@ -1,4 +1,7 @@
 <div class="mat-elevation-z8">
+  <button mat-icon-button aria-label="keyboard_backspace" (click)="back()">
+    <mat-icon>keyboard_backspace</mat-icon>
+  </button>
   <button
     mat-icon-button
     aria-label="Refresh commit list"
@@ -9,8 +12,28 @@
   <table mat-table [dataSource]="dataSource">
     <!-- message Column -->
     <ng-container matColumnDef="message" class="table-row">
-      <th mat-header-cell *matHeaderCellDef>Message</th>
-      <td mat-cell *matCellDef="let element">{{ element.message }}</td>
+      <th mat-header-cell *matHeaderCellDef>Commit Message</th>
+      <td mat-cell *matCellDef="let element">
+        <a mat-button (click)="goToGithubCommit(element.hash)">{{
+          element.message
+        }}</a>
+      </td>
+    </ng-container>
+
+    <!-- hash Column -->
+    <ng-container matColumnDef="hash" class="table-row">
+      <th mat-header-cell *matHeaderCellDef>Short Hash</th>
+      <td mat-cell *matCellDef="let element">
+        <b>{{ element.hash.substr(element.hash.length - 7) }}</b>
+      </td>
+    </ng-container>
+
+    <!-- time Column -->
+    <ng-container matColumnDef="time" class="table-row">
+      <th mat-header-cell *matHeaderCellDef>Commit Time</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.timestamp }}
+      </td>
     </ng-container>
 
     <!-- Action Column -->

@@ -7,6 +7,7 @@ export class Repo {
         public description: string,
         public url: string,
         public is_private: boolean,
+        public readme: string,
         public user: User,
     ) {}
 }

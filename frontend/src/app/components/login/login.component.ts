@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router, ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {Token} from '../../models/token.model';
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private tService: ToastrService) {
   }
@@ -25,17 +27,17 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    console.log('Username: ' + this.loginForm.value.username);
-    console.log('Password: ' + this.loginForm.value.password);
+    // console.log('Username: ' + this.loginForm.value.username);
+    // console.log('Password: ' + this.loginForm.value.password);
     if (this.loginForm?.valid) {
       this.authService
         .login(this.loginForm.value.username, this.loginForm.value.password)
         .subscribe(
           (response: Token) => {
-            console.log('Token: ' + JSON.stringify(response));
             sessionStorage.setItem('accessToken', response.access);
             this.tService.success('User successfully logged in.', 'Success');
             this.getAuthenticatedUser();
+            this.router.navigate(['/repos']);
           },
           err => {
             if (err.status === 400) {
@@ -61,7 +63,6 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (response: User) => {
           sessionStorage.setItem('authUser', JSON.stringify(response));
-          console.log(JSON.stringify(response));
         },
         err => {
           console.log(err);

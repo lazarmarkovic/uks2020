@@ -2,14 +2,23 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {Router, ActivatedRoute} from '@angular/router';
+import { Location } from '@angular/common';
+
 
 import {User} from '../../models/user.model';
 import {BranchService} from '../../services/branch.service';
+import {RepoService} from '../../services/repo.service';
+
 import {AuthService} from '../../services/auth.service';
 import { Repo } from 'src/app/models/repo.model';
 
 import {ToastrService} from 'ngx-toastr';
 import { Branch } from 'src/app/models/branch.model';
+
+import {SelectedRepoService} from '../../data-services/selected-repo.service';
+
+
+import * as dayjs from 'dayjs';
 
 
 export interface BranchElement {
@@ -25,7 +34,12 @@ export interface BranchElement {
 })
 export class BranchListComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['name'];
+  sub = null;
+  repo = null;
+
+  repo_obj = null;
+
+  displayedColumns: string[] = ['name', 'last_commit'];
   dataSource = new MatTableDataSource<Branch>([]);
   user: User = null;
 
@@ -38,13 +52,23 @@ export class BranchListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private branchService: BranchService,
+    private repoService: RepoService,
     private authService: AuthService,
     private router: Router,
     public activeRoute: ActivatedRoute,
     private tService: ToastrService,
+    private location: Location,
+    private selectedRepoService: SelectedRepoService,
   ) {}
 
   ngOnInit(): void {
+    this.repo_obj = this.selectedRepoService.getRepo();
+    console.log(this.repo_obj.readme)
+
+    this.sub = this.activeRoute.params.subscribe(params => {
+      this.repo = params['repo'];
+    });
+
     this.user = this.authService.getCurrentUser();
     if (this.user == undefined) {
       this.tService.info('User not logged in', 'Error');
@@ -55,10 +79,18 @@ export class BranchListComponent implements OnInit, AfterViewInit {
 
   getBranches(): void {
     this.branchService
-      .getAll(7)
+      .getAll(this.repo)
       .subscribe(
         (response: Branch[]) => {
-          this.dataSource = new MatTableDataSource<Branch>(response);
+          let newReponse = [];
+          response.forEach((branch) => {
+            newReponse.push(
+              {...branch, 
+                last_commit: 
+                  {...branch['last_commit'], 
+                  timestamp: dayjs(branch['last_commit']['timestamp']).format('DD.MM.YYYY.')}})
+          })
+          this.dataSource = new MatTableDataSource<Branch>(newReponse);
           this.dataSource.paginator = this.paginator;
         },
         error => {
@@ -68,11 +100,23 @@ export class BranchListComponent implements OnInit, AfterViewInit {
       );
   }
 
-  viewForm(repoId: string): void {
-    this.router.navigate(['/api/branches/' + repoId]);
+  viewCommits(repo_name: string, branch_name: string): void {
+    this.router.navigate([`repos/${repo_name}/branches/${branch_name.replace('/', '~')}/commits`]);
   }
 
   refreshTable(): void {
     this.getBranches();
+  }
+
+  back() {
+    this.location.back();
+  }
+
+  goToGithubBranch(url: string){
+    window.open(url, "_blank");
+  }
+
+  onReady(){
+    console.log("markdown ready")
   }
 }

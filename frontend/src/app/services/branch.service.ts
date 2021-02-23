@@ -9,7 +9,7 @@ export class BranchService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAll(repo_id: number): Observable<any> {
-    return this.httpClient.get(`/api/repos/${repo_id}/branches/get-all`);
+  getAll(repo_name: string): Observable<any> {
+    return this.httpClient.get(`/api/repos/${repo_name}/branches/get-all`);
   }
 }

@@ -28,5 +28,6 @@ class RepositorySerializer(serializers.ModelSerializer):
             'description',
             'url',
             'is_private',
-            'user'
+            'readme',
+            'user',
         ]

@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = sessionStorage.getItem('accessToken');
-    if (token != null) {
+    if (token != null && !request.url.includes("https://raw.githubusercontent.com") && !request.url.includes("https://api.github.com")) {
       const clonedReq = request.clone({
         headers: request.headers.set('Authorization', 'Bearer ' + token)
       });

@@ -1,4 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
+
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -6,6 +8,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {User} from '../../models/user.model';
 import {RepoService} from '../../services/repo.service';
 import {AuthService} from '../../services/auth.service';
+import {SelectedRepoService} from '../../data-services/selected-repo.service';
 import { Repo } from 'src/app/models/repo.model';
 
 import {ToastrService} from 'ngx-toastr';
@@ -24,7 +27,7 @@ export interface RepoElement {
 })
 export class RepositoryListComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['name'];
+  displayedColumns: string[] = ['name', 'action'];
   dataSource = new MatTableDataSource<Repo>([]);
   user: User = null;
 
@@ -41,6 +44,8 @@ export class RepositoryListComponent implements OnInit, AfterViewInit {
     private router: Router,
     public activeRoute: ActivatedRoute,
     private tService: ToastrService,
+    private location: Location,
+    private selectedRepoService: SelectedRepoService
   ) {}
 
   ngOnInit(): void {
@@ -67,11 +72,16 @@ export class RepositoryListComponent implements OnInit, AfterViewInit {
       );
   }
 
-  viewForm(repoId: string): void {
-    this.router.navigate(['/api/repos/' + repoId]);
+  viewBranches(repo: Repo): void {
+    this.selectedRepoService.setRepo(repo);
+    this.router.navigate([`repos/${repo.name}/branches`]);
   }
 
   refreshTable(): void {
     this.getRepos();
+  }
+
+  back() {
+    this.location.back(); // <-- go back to previous location on cancel
   }
 }

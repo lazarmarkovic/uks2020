@@ -17,6 +17,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RepositoryListComponent } from './components/repository-list/repository-list.component';
 import { BranchListComponent } from './components/branch-list/branch-list.component';
 import { CommitListComponent } from './components/commit-list/commit-list.component';
+import { NewRepoFormComponent } from './components/new-repo-form/new-repo-form.component';
+
 
 
 /* Material design imports */
@@ -34,6 +36,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+/* Markdown viewer*/
+import { MarkdownModule } from 'ngx-markdown';
+import { HttpClient } from '@angular/common/http';
 
 
 @NgModule({
@@ -44,6 +51,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     RepositoryListComponent,
     BranchListComponent,
     CommitListComponent,
+    NewRepoFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +60,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+
+    MarkdownModule.forRoot({ loader: HttpClient }), // Markdown shit
 
     BrowserAnimationsModule,
     MatFormFieldModule,
@@ -69,6 +79,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatTableModule,
     MatPaginatorModule,
     NgbModule,
+    MatTooltipModule,
   ],
   providers: [
     {
