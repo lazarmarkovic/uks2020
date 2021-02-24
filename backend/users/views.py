@@ -24,6 +24,14 @@ def get_one_user(request, user_id):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_auth_user(request):
+    serializer = UserSerializer(request.user, many=False)
+    return Response(serializer.data)
+
+
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])

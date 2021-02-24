@@ -8,13 +8,13 @@ class RepositoryCreateSerializer(serializers.Serializer):
     name = serializers.CharField(min_length=3, max_length=128)
     description = serializers.CharField(max_length=256)
     url = serializers.CharField(min_length=10, max_length=256)
-    private = serializers.BooleanField()
+    is_private = serializers.BooleanField()
 
 
 class RepositoryUpdateSerializer(serializers.Serializer):
     name = serializers.CharField(min_length=3, max_length=128)
     description = serializers.CharField(max_length=256)
-    private = serializers.BooleanField()
+    is_private = serializers.BooleanField()
 
 
 class RepositorySerializer(serializers.ModelSerializer):
@@ -27,6 +27,7 @@ class RepositorySerializer(serializers.ModelSerializer):
             'name',
             'description',
             'url',
-            'private',
-            'user'
+            'is_private',
+            'readme',
+            'user',
         ]
