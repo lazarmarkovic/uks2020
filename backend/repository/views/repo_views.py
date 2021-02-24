@@ -90,6 +90,12 @@ def update_repo(request, repo_id):
 
     repo = get_object_or_404(Repository, pk=repo_id)
 
+    if (repo.name != repo_ser.data['name']):
+        found_repos = Repository.objects.filter(name=repo_ser.data['name'])
+        if len(found_repos) > 0:
+            raise GeneralException(
+                "Repository with given name already exists.")
+
     repo.name = repo_ser.data['name']
     repo.description = repo_ser.data['description']
     repo.is_private = repo_ser.data['is_private']
@@ -99,6 +105,22 @@ def update_repo(request, repo_id):
 
     serializer = RepositorySerializer(repo, many=False)
     return Response(serializer.data)
+
+
+@api_view(['PUT'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def reload_repo(request, repo_id):
+    repo = get_object_or_404(Repository, pk=repo_id)
+
+    branches = Branch.objects.filter(repo__id=repo_id)
+
+    for branch in branches:
+        branch.delete()
+
+    load_repo(repo, request.user)
+    
+    return Response()
 
 
 @api_view(['DELETE'])

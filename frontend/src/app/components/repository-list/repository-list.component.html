@@ -9,6 +9,7 @@
   >
     <mat-icon>refresh</mat-icon>
   </button>
+  <mat-spinner class="spinner" diameter="30" *ngIf="showSpinner"></mat-spinner>
   <table mat-table [dataSource]="dataSource">
     <!-- name Column -->
     <ng-container matColumnDef="name" class="table-row">
@@ -26,7 +27,7 @@
           matTooltip="View details"
           mat-icon-button
           aria-label="Action"
-          (click)="viewBranches(element.name)"
+          (click)="viewBranches(element)"
         >
           <mat-icon>preview</mat-icon>
         </button>
@@ -34,7 +35,7 @@
           matTooltip="Change repo settings"
           mat-icon-button
           aria-label="Action"
-          (click)="viewBranches(element.name)"
+          (click)="openUpdateRepoDialog(element)"
         >
           <mat-icon>settings</mat-icon>
         </button>
@@ -42,9 +43,18 @@
           matTooltip="Reload repository from Github"
           mat-icon-button
           aria-label="Action"
-          (click)="viewBranches(element.name)"
+          (click)="openReloadConfirmationDialog(element)"
         >
           <mat-icon>download</mat-icon>
+        </button>
+
+        <button
+          matTooltip="Delete repo"
+          mat-icon-button
+          aria-label="Action"
+          (click)="openDeleteConfirmationDialog(element)"
+        >
+          <mat-icon>delete</mat-icon>
         </button>
       </td>
     </ng-container>

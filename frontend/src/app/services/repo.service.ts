@@ -26,4 +26,27 @@ export class RepoService {
       is_private,
     })
   }
+
+
+  update(
+    repoId: number,
+    name: string, 
+    description: string, 
+    is_private: boolean): Observable<any> {
+      
+    return this.httpClient.put(`/api/repos/${repoId}/update`, {
+      name,
+      description,
+      is_private,
+    })
+  }
+
+  reload(repoId: number) {
+    return this.httpClient.put(`/api/repos/${repoId}/reload`, {})
+
+  }
+
+  delete(repoId: number): Observable<any> {
+    return this.httpClient.delete(`/api/repos/${repoId}/delete`)
+  }
 }

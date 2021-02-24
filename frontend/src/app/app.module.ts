@@ -18,6 +18,8 @@ import { RepositoryListComponent } from './components/repository-list/repository
 import { BranchListComponent } from './components/branch-list/branch-list.component';
 import { CommitListComponent } from './components/commit-list/commit-list.component';
 import { NewRepoFormComponent } from './components/new-repo-form/new-repo-form.component';
+import { RepoUpdateDialogComponent } from './components/repo-update-dialog/repo-update-dialog.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -37,6 +39,8 @@ import { MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
@@ -52,6 +56,8 @@ import { HttpClient } from '@angular/common/http';
     BranchListComponent,
     CommitListComponent,
     NewRepoFormComponent,
+    RepoUpdateDialogComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,6 +86,8 @@ import { HttpClient } from '@angular/common/http';
     MatPaginatorModule,
     NgbModule,
     MatTooltipModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     {
