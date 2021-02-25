@@ -45,6 +45,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
+import { LabelsListComponent } from './components/labels-list/labels-list.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { HttpClient } from '@angular/common/http';
     NewRepoFormComponent,
     RepoUpdateDialogComponent,
     ConfirmationDialogComponent,
+    LabelsListComponent,
   ],
   imports: [
     BrowserModule,

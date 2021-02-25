@@ -6,6 +6,7 @@ import {RepositoryListComponent} from './components/repository-list/repository-l
 import {BranchListComponent} from './components/branch-list/branch-list.component';
 import {CommitListComponent} from './components/commit-list/commit-list.component';
 import { NewRepoFormComponent } from './components/new-repo-form/new-repo-form.component';
+import { LabelsListComponent } from './components/labels-list/labels-list.component';
 
 
 
@@ -18,6 +19,8 @@ const routes: Routes = [
   {path: 'repos/:repo/branches/:branch/commits', component: CommitListComponent},
 
   {path: 'repos/add', component: NewRepoFormComponent},
+
+  {path: 'labels', component: LabelsListComponent}
 
 ];
 
