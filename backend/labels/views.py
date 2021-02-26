@@ -68,9 +68,10 @@ def get_all_labels(request):
 # @permission_classes([IsAuthenticated])
 def update_label(request, label_name):
 
-    found_labels = Label.objects.filter(name=request.data["name"])
-    if len(found_labels) > 0:
-        raise GeneralException("Label with given name already exists.")
+    if label_name != request.data["name"]:
+        found_labels = Label.objects.filter(name=request.data["name"])
+        if len(found_labels) > 0:
+            raise GeneralException("Label with given name already exists.")
 
     label = get_object_or_404(Label, name=label_name)
 
@@ -92,4 +93,4 @@ def delete_label(request, label_name):
     label = get_object_or_404(Label, name=label_name)
     label.delete()
 
-    return HttpResponse("Success")
+    return Response("Success")

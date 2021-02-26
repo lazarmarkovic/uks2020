@@ -10,12 +10,10 @@ import { Label } from 'src/app/models/label.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { LabelService } from 'src/app/services/label.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { LabelUpdateDialogComponent } from '../label-update-dialog/label-update-dialog.component';
+import { NewLabelFormComponent } from '../new-label-form/new-label-form.component';
 
-export interface LabelElement {
-  id: string;
-  name: string;
-  creationTime: Date;
-}
 
 @Component({
   selector: 'app-labels-list',
@@ -24,7 +22,7 @@ export interface LabelElement {
 })
 export class LabelsListComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['name', 'description', 'color'];
+  displayedColumns: string[] = ['name', 'description', 'color', 'action'];
   dataSource = new MatTableDataSource<Label>([]);
   user: User = null;
   showSpinner: boolean = false;
@@ -81,6 +79,59 @@ export class LabelsListComponent implements OnInit, AfterViewInit {
     this.location.back(); // <-- go back to previous location on cancel
   }
 
-  
+  openCreateLabelDialog(): void{
+    const dialogRef = this.dialog.open(NewLabelFormComponent,{
+      width: '40em',
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'created'){
+        this.refreshTable();
+      }
+    });
+  }
+
+  openUpdateLabelDialog(label: Label): void {
+    const dialogRef = this.dialog.open(LabelUpdateDialogComponent, {
+      width: '40em',
+      data: label,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'updated'){
+        this.refreshTable();
+      }
+    });
+  }
+
+  openDeleteConfirmationDialog(label: Label): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '25em',
+      data: {
+        title: "Confirm action",
+        text: "Please confirm that you want to delete label: " + label.name,
+        buttonName: "Delete",
+        callback: () => { this.deleteLabel(label.name) }
+      },
+    });
+  }
+
+  deleteLabel(labelName: string): void {
+    this.showSpinner = true;
+    this.labelService
+    .deleteLabel(labelName)
+    .subscribe(
+      (resposne: any) => {
+        this.tService.success('Successfully deleted label.', 'Success');
+        this.refreshTable();
+        this.dialog.closeAll();
+        this.showSpinner = false;
+      },
+      err => {
+        console.log(err);
+        this.tService.error('Cannot delete given label.', 'Error');
+        this.showSpinner = false;
+      }
+    )
+  }
 }

@@ -12,4 +12,33 @@ export class LabelService {
   getAll(): Observable<any> {
     return this.HttpClient.get('/api/labels/get_all');
   }
+
+  createLabel(
+    name: string,
+    description: string,
+    color: string): Observable<any> {
+
+      return this.HttpClient.post('/api/labels/create', {
+        name,
+        description,
+        color,
+      });
+    }
+
+  updateLabel(
+    labelName: string,
+    name: string,
+    description: string,
+    color: string): Observable<any> {
+      
+      return this.HttpClient.put(`/api/labels/update/${labelName}`, {
+        name,
+        description,
+        color,
+      }); 
+    }
+
+  deleteLabel(labelName: string): Observable<any> {
+    return this.HttpClient.delete(`/api/labels/delete/${labelName}`);
+  }
 }

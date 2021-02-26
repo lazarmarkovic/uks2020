@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Update Label</h1>
+<div class="dialog-content" mat-dialog-content>
+  <div class="container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="updateLabelForm">
+      <mat-form-field class="formField">
+        <mat-label>Name</mat-label>
+        <input class="text-input" matInput type="text" formControlName="name" />
+        <mat-error *ngIf="updateLabelForm.controls['name'].hasError('required')">
+          Label name is required.
+        </mat-error>
+        <mat-error
+          *ngIf="updateLabelForm.controls['name'].hasError('minlength')"
+        >
+          Label name should contain at least 5 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="formField">
+        <mat-label>Description (Optional)</mat-label>
+        <textarea
+          cdkTextareaAutosize
+          class="text-input"
+          matInput
+          formControlName="description"
+        ></textarea>
+      </mat-form-field>
+
+      <mat-form-field class="formField">
+        <mat-label>Color</mat-label>
+        <input class="text-input" matInput type="text" formControlName="color" />
+        <mat-error *ngIf="updateLabelForm.controls['color'].hasError('required')">
+          Label color is required.
+        </mat-error>
+        <mat-error
+          *ngIf="updateLabelForm.controls['color'].hasError('minlength')"
+        >
+          Label color should should be hex value
+        </mat-error>
+      </mat-form-field>
+
+    </form>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onSubmit()">Update</button>
+  <button mat-button [mat-dialog-close]="'canceled'" cdkFocusInitial>
+    Cancel
+  </button>
+</div>

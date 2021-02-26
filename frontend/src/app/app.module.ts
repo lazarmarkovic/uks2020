@@ -46,6 +46,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
 import { LabelsListComponent } from './components/labels-list/labels-list.component';
+import { LabelUpdateDialogComponent } from './components/label-update-dialog/label-update-dialog.component';
+import { NewLabelFormComponent } from './components/new-label-form/new-label-form.component';
 
 
 @NgModule({
@@ -60,6 +62,8 @@ import { LabelsListComponent } from './components/labels-list/labels-list.compon
     RepoUpdateDialogComponent,
     ConfirmationDialogComponent,
     LabelsListComponent,
+    LabelUpdateDialogComponent,
+    NewLabelFormComponent,
   ],
   imports: [
     BrowserModule,
