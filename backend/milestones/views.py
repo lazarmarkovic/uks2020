@@ -1,3 +1,6 @@
+import datetime
+
+from django.utils.dateparse import parse_date
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -10,7 +13,7 @@ from rest_framework.decorators import (
 
 from django.shortcuts import get_object_or_404
 
-from milestones.models import Milestone
+from milestones.models import Milestone, OPEN, CLOSED
 from milestones.serializers.milestone_serializers import (
     MilestoneSerializer,
     MilestoneCreateSerializer,
@@ -65,9 +68,10 @@ def create_milestone(request, repository_id):
     milestone = Milestone.objects.create(
         name=milestone_ser.data['name'],
         description=milestone_ser.data['description'],
-        start_date=milestone_ser.data['start_date'],
+        start_date=datetime.datetime.now().date(),
         end_date=milestone_ser.data['end_date'],
         repository=repository,
+        state=OPEN,
     )
     if milestone.start_date > milestone.end_date:
         raise GeneralException("Start date must be before end date.")
@@ -85,15 +89,22 @@ def edit_milestone(request, milestone_id):
     milestone_ser = MilestoneUpdateSerializer(data=request.data)
 
     if not milestone_ser.is_valid():
+        print(milestone_ser.errors)
         raise GeneralException("Invalid request.")
 
     milestone = get_object_or_404(Milestone, pk=milestone_id)
 
     milestone.name = milestone_ser.data['name']
     milestone.description = milestone_ser.data['description']
-    milestone.end_date = milestone_ser.data['end_date']
+    milestone.end_date = parse_date(milestone_ser.data['end_date'])
+    milestone.state = milestone_ser.data['state']
+
+    if milestone.start_date > milestone.end_date:
+        raise GeneralException("Start date must be before end date.")
+
     milestone.save()
 
     milestone.refresh_from_db()
-    serializer = MilestoneSerializer(milestone, many=False)
+    milestones = Milestone.objects.filter(repository_id=milestone.repository.id)
+    serializer = MilestoneSerializer(milestones, many=True)
     return Response(serializer.data)

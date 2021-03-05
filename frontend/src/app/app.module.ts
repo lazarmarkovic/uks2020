@@ -35,16 +35,18 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
-import { MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
+import { MilestoneListComponent } from './components/milestone-list/milestone-list.component';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -58,6 +60,7 @@ import { HttpClient } from '@angular/common/http';
     NewRepoFormComponent,
     RepoUpdateDialogComponent,
     ConfirmationDialogComponent,
+    MilestoneListComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,7 +102,8 @@ import { HttpClient } from '@angular/common/http';
       provide: HTTP_INTERCEPTORS,
       useClass: APIInterceptor,
       multi: true,
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
