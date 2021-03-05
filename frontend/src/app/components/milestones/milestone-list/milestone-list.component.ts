@@ -13,6 +13,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+import { MilestoneUpdateDialogComponent } from '../milestone-update-dialog/milestone-update-dialog.component';
 
 
 @Component({
@@ -80,8 +81,17 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
     );
   }
 
-  edit(milestone) {
+  edit(milestone: Milestone) {
+    const dialogRef = this.dialog.open(MilestoneUpdateDialogComponent, {
+      width: '40em',
+      data: milestone,
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'updated') {
+        this.gettMilestonesForRepository(this.repo_id);
+      }
+    });
   }
 
   changeState(milestone: Milestone, new_state: string) {

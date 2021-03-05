@@ -20,7 +20,8 @@ import { CommitListComponent } from './components/commit-list/commit-list.compon
 import { NewRepoFormComponent } from './components/new-repo-form/new-repo-form.component';
 import { RepoUpdateDialogComponent } from './components/repo-update-dialog/repo-update-dialog.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
-
+import { NewMilestoneFormComponent } from './components/milestones/new-milestone-form/new-milestone-form.component';
+import { MilestoneUpdateDialogComponent } from './components/milestones/milestone-update-dialog/milestone-update-dialog.component';
 
 
 /* Material design imports */
@@ -48,7 +49,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
 import { MilestoneListComponent } from './components/milestones/milestone-list/milestone-list.component';
 import { DatePipe } from '@angular/common';
-import { NewMilestoneFormComponent } from './components/milestones/new-milestone-form/new-milestone-form.component';
+
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { NewMilestoneFormComponent } from './components/milestones/new-milestone
     ConfirmationDialogComponent,
     MilestoneListComponent,
     NewMilestoneFormComponent,
+    MilestoneUpdateDialogComponent,
   ],
   imports: [
     BrowserModule,
