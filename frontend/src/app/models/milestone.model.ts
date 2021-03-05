@@ -1,20 +1,29 @@
-import { Repo } from "./repo.model";
-
 export class Milestone {
     public id: number;
     public name: string;
     public description: string;
-    public start_date: Date;
-    public end_date: Date;
+    public start_date: string;
+    public end_date: string;
     public state: string;
 
-    constructor(id: number, name: string, description: string, start_date: Date, end_date: Date, state: string) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.state = state;
+    static MilestoneWithId(name: string, description: string, start_date: string, end_date: string, state: string, id: number): Milestone {
+        let result = new Milestone();
+        result.name = name;
+        result.description = description;
+        result.start_date = start_date;
+        result.end_date = end_date;
+        result.state = state;
+        result.id = id;
+        return result;
     }
 
+    static MilestoneWithoutId(name: string, description: string, start_date: string, end_date: string, state: string): Milestone {
+        var result = new Milestone();
+        result.name = name;
+        result.description = description;
+        result.start_date = start_date;
+        result.end_date = end_date;
+        result.state = state;
+        return result;
+    }
 }

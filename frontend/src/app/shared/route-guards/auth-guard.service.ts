@@ -13,7 +13,7 @@ export class AuthGuardService {
   ) { }
 
   canActivate() {
-    if (this.authenticationService.getCurrentUser() === undefined) {
+    if (!this.authenticationService.isAuthenticated()) {
       this.router.navigateByUrl('');
       return false;
     }

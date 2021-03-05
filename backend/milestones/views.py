@@ -63,13 +63,14 @@ def create_milestone(request, repository_id):
     milestone_ser = MilestoneCreateSerializer(data=request.data)
 
     if not milestone_ser.is_valid():
+        print(milestone_ser.errors)
         raise GeneralException("Invalid request.")
 
     milestone = Milestone.objects.create(
         name=milestone_ser.data['name'],
         description=milestone_ser.data['description'],
         start_date=datetime.datetime.now().date(),
-        end_date=milestone_ser.data['end_date'],
+        end_date=parse_date(milestone_ser.data['end_date']),
         repository=repository,
         state=OPEN,
     )
@@ -93,6 +94,11 @@ def edit_milestone(request, milestone_id):
         raise GeneralException("Invalid request.")
 
     milestone = get_object_or_404(Milestone, pk=milestone_id)
+    found_milestones = Milestone.objects.filter(name=request.data["name"])
+    found_milestones = found_milestones.exclude(pk=milestone_id)
+
+    if len(found_milestones) > 0:
+        raise GeneralException("Milestone with given name already exists.")
 
     milestone.name = milestone_ser.data['name']
     milestone.description = milestone_ser.data['description']

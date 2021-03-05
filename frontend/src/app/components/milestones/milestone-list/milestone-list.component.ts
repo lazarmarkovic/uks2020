@@ -11,6 +11,8 @@ import { MilestoneService } from 'src/app/services/milestone.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -37,13 +39,11 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private milestoneService: MilestoneService,
-    private repoService: RepoService,
-    private authService: AuthService,
-    private router: Router,
     public activetedRoute: ActivatedRoute,
     private tService: ToastrService,
     private location: Location,
-    @Inject(LOCALE_ID) localID: string) {
+    @Inject(LOCALE_ID) localID: string,
+    public dialog: MatDialog) {
     this.localeID = localID;
     this.repo_id = this.activetedRoute.snapshot.params.repo_id;
   }
@@ -56,7 +56,7 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
     this.milestoneService.gettMilestonesForRepository(repositoryId).subscribe(
       (data: Milestone[]) => {
         this.milestones = data;
-        this.milestones.forEach(m => console.log(m));
+        //this.milestones.forEach(m => console.log(m));
         this.dataSource = new MatTableDataSource<Milestone>(data);
         this.dataSource.paginator = this.paginator;
       },
@@ -66,12 +66,13 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
     );
   }
 
-  remove(milestone) {
+  removeMilestone(milestone) {
     this.milestoneService.deleteMilestone(milestone.id).subscribe(
       data => {
         let milestones = this.milestones.filter(method => method.id != milestone.id);
         this.dataSource = new MatTableDataSource<Milestone>(milestones);
         this.dataSource.paginator = this.paginator;
+        this.tService.success('Successfuly deleted milestone.', 'Success');
       },
       (err: HttpErrorResponse) => {
         console.log(err.error);
@@ -85,7 +86,7 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
 
   changeState(milestone: Milestone, new_state: string) {
 
-    let edited = new Milestone(milestone.id, milestone.name, milestone.description, milestone.start_date, milestone.end_date, new_state);
+    let edited = Milestone.MilestoneWithId(milestone.name, milestone.description, milestone.start_date, milestone.end_date, new_state, milestone.id);
     console.log(edited);
     this.milestoneService.updateMilestone(edited).subscribe(
       data => {
@@ -96,6 +97,18 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
         console.log(err.error);
       }
     );
+  }
+
+  openDeleteConfirmationDialog(milestone: Milestone): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '25em',
+      data: {
+        title: "Confirm action",
+        text: "Please confirm that you want to delete milestone: " + milestone.name,
+        buttonName: "Delete",
+        callback: () => { this.removeMilestone(milestone) }
+      },
+    });
   }
 
   back() {

@@ -31,7 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
@@ -41,12 +41,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
-import { MilestoneListComponent } from './components/milestone-list/milestone-list.component';
+import { MilestoneListComponent } from './components/milestones/milestone-list/milestone-list.component';
 import { DatePipe } from '@angular/common';
+import { NewMilestoneFormComponent } from './components/milestones/new-milestone-form/new-milestone-form.component';
 
 
 @NgModule({
@@ -61,6 +63,7 @@ import { DatePipe } from '@angular/common';
     RepoUpdateDialogComponent,
     ConfirmationDialogComponent,
     MilestoneListComponent,
+    NewMilestoneFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,6 +94,8 @@ import { DatePipe } from '@angular/common';
     MatTooltipModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ],
   providers: [
     {

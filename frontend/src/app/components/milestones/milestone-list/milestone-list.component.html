@@ -51,7 +51,7 @@
                         <button mat-icon-button (click)="edit(element)">
                             <mat-icon aria-label="Edit milestone">edit</mat-icon>
                         </button>
-                        <button mat-icon-button color="warn" (click)="remove(element)">
+                        <button mat-icon-button color="warn" (click)="openDeleteConfirmationDialog(element)">
                             <mat-icon aria-label="Delete milestone">delete</mat-icon>
                         </button>
                         <ng-container *ngIf=" element.state === 'OP'">
@@ -83,7 +83,7 @@
         <div class="col-4">
             <br />
             <h2>
-                <button mat-flat-button color="primary">Add new milestone</button>
+                <button mat-flat-button color="primary" [routerLink]="['create']">Add new milestone</button>
             </h2>
         </div>
     </div>
