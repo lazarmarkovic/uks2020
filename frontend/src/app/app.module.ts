@@ -49,6 +49,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
 import { MilestoneListComponent } from './components/milestones/milestone-list/milestone-list.component';
 import { DatePipe } from '@angular/common';
+import { IssueListComponent } from './components/issues/issue-list/issue-list.component';
 
 
 
@@ -66,6 +67,7 @@ import { DatePipe } from '@angular/common';
     MilestoneListComponent,
     NewMilestoneFormComponent,
     MilestoneUpdateDialogComponent,
+    IssueListComponent,
   ],
   imports: [
     BrowserModule,

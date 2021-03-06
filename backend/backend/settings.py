@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'repository',
-    'milestones'
+    'milestones',
+    'issues'
 ]
 
 MIDDLEWARE = [
