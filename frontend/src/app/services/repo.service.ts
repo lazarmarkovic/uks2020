@@ -14,11 +14,11 @@ export class RepoService {
   }
 
   create(
-    name: string, 
-    description: string, 
-    url: string, 
+    name: string,
+    description: string,
+    url: string,
     is_private: boolean): Observable<any> {
-      
+
     return this.httpClient.post('/api/repos/create', {
       name,
       description,
@@ -30,10 +30,10 @@ export class RepoService {
 
   update(
     repoId: number,
-    name: string, 
-    description: string, 
+    name: string,
+    description: string,
     is_private: boolean): Observable<any> {
-      
+
     return this.httpClient.put(`/api/repos/${repoId}/update`, {
       name,
       description,
@@ -48,5 +48,9 @@ export class RepoService {
 
   delete(repoId: number): Observable<any> {
     return this.httpClient.delete(`/api/repos/${repoId}/delete`)
+  }
+
+  getCollaborators(repoId: number): Observable<any> {
+    return this.httpClient.get(`/api/repos/${repoId}/collaborators/get-all`)
   }
 }

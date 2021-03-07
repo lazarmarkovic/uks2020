@@ -220,3 +220,12 @@ def get_all_commits(request, repo_name, branch_name):
 
     serializer = CommitSerializer(repos, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_repo_collaborators(request, repo_id):
+    repo = get_object_or_404(Repository, pk=repo_id)
+    serializer = UserSerializer(repo.collaborators, many=True)
+    return Response(serializer.data)

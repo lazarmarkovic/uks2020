@@ -9,6 +9,7 @@ import { Milestone } from 'src/app/models/milestone.model';
 import { User } from 'src/app/models/user.model';
 import { IssueService } from 'src/app/services/issue.service';
 import { MilestoneService } from 'src/app/services/milestone.service';
+import { RepoService } from 'src/app/services/repo.service';
 
 @Component({
   selector: 'app-new-issue-form',
@@ -24,13 +25,15 @@ export class NewIssueFormComponent implements OnInit {
   issue_types = ['Issue', 'Incident'];
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private issueService: IssueService, private milestoneService: MilestoneService, public activetedRoute: ActivatedRoute, private tService: ToastrService, private location: Location) {
+  constructor(private fb: FormBuilder, private issueService: IssueService, private milestoneService: MilestoneService, private repositoryService: RepoService,
+    public activetedRoute: ActivatedRoute, private tService: ToastrService, private location: Location) {
     this.repo_id = this.activetedRoute.snapshot.params.repo_id;
   }
 
   ngOnInit(): void {
     console.log(this.issue_types)
     this.getMilestonesForRepository(this.repo_id);
+    this.getRepositoryCollaborators(this.repo_id);
     this.form = this.fb.group({
       'title': ['', [Validators.required, Validators.minLength(5)]],
       'description': ['', [Validators.required]],
@@ -54,7 +57,14 @@ export class NewIssueFormComponent implements OnInit {
   }
 
   getRepositoryCollaborators(repoId) {
-
+    this.repositoryService.getCollaborators(repoId).subscribe(
+      (collaborators: User[]) => {
+        this.collaborators = collaborators;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.error);
+      }
+    );
   }
 
   cancel() {

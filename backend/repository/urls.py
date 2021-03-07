@@ -18,4 +18,5 @@ urlpatterns = [
 
     path('<str:repo_name>/branches/<str:branch_name>/commits/get-all',
          get_all_commits, name='get_all_commits'),
+    path('<int:repo_id>/collaborators/get-all', get_repo_collaborators, name='get_repo_collaborators')
 ]

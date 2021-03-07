@@ -68,7 +68,7 @@
                             <mat-label>Add assignees(s) (optional)</mat-label>
                             <mat-select formControlName="assignees" multiple>
                                 <mat-option *ngFor="let collaborator of collaborators" [value]="collaborator.id">
-                                    {{collaborator.name}}
+                                    {{collaborator.username}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
