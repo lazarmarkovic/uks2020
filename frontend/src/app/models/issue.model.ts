@@ -1,4 +1,5 @@
 import { Milestone } from "./milestone.model";
+import { User } from "./user.model";
 
 export class Issue {
     public id: number;
@@ -8,27 +9,34 @@ export class Issue {
     public state: string;
     public weight: number;
     public milestone: Milestone;
+    public assignees: User[];
+    public type: string;
 
 
-    static IssueWithId(name: string, description: string, due_date: string, state: string, weight: number, id: number, milestone?: Milestone): Issue {
+    static IssueWithId(title: string, description: string, due_date: string, state: string, weight: number, id: number, type: string, milestone?: Milestone, assignees?: User[]): Issue {
         let result = new Issue();
-        result.title = name;
+        result.title = title;
         result.description = description;
         result.weight = weight;
         result.due_date = due_date;
         result.state = state;
         result.id = id;
+        result.type = type;
         result.milestone = milestone;
+        result.assignees = assignees;
         return result;
     }
 
-    static IssueWithoutId(name: string, description: string, due_date: string, state: string, weight: number): Issue {
+    static IssueWithoutId(title: string, description: string, due_date: string, state: string, type: string, weight: number, milestone?: Milestone, assignees?: User[]): Issue {
         var result = new Issue();
-        result.title = name;
+        result.title = title;
         result.description = description;
         result.weight = weight;
         result.due_date = due_date;
         result.state = state;
+        result.type = type;
+        result.milestone = milestone;
+        result.assignees = assignees;
         return result;
     }
 }

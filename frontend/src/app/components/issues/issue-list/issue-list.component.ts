@@ -64,7 +64,7 @@ export class IssueListComponent implements OnInit {
 
   changeState(issue: Issue, new_state: string) {
 
-    let edited = Issue.IssueWithId(issue.title, issue.description, issue.due_date, new_state, issue.weight, issue.id, issue.milestone);
+    let edited = Issue.IssueWithId(issue.title, issue.description, issue.due_date, new_state, issue.weight, issue.id, issue.type, issue.milestone);
     console.log(edited);
     this.issueService.updateIssue(edited).subscribe(
       data => {

@@ -14,6 +14,7 @@ class IssueUpdateSerializer(serializers.Serializer):
     state = serializers.CharField(
          max_length=2
     )
+    assignees = UserSerializer(many=True)
 
 class IssueCreateSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=512)
@@ -24,6 +25,7 @@ class IssueCreateSerializer(serializers.Serializer):
     due_date = serializers.DateField()
     weight = serializers.IntegerField()
     milestone = MilestoneSerializer(many=False)
+    assignees = UserSerializer(many=True)
 
 class IssueSerializer(serializers.ModelSerializer):
     milestone = MilestoneSerializer(many=False)

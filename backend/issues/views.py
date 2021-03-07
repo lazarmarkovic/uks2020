@@ -57,7 +57,7 @@ def create_issue(request, repository_id):
     repository = get_object_or_404(Repository, pk=repository_id)
     issue_ser = IssueCreateSerializer(data=request.data)
 
-    found_issues = Issue.objects.filter(name=request.data["title"])
+    found_issues = Issue.objects.filter(title=request.data["title"])
     if len(found_issues) > 0:
         raise GeneralException("Issue with given name already exists.")
 
@@ -72,11 +72,17 @@ def create_issue(request, repository_id):
         state=OPEN,
         type=issue_ser.data["type"],
         repository=repository,
+        milestone=issue_ser.data["milestone"]
     )
+    assignees = issue_ser.data['assignees'].objects.all()
+
+    if len(assignees) > 0:
+        new_issue.assignees.add(assignees)
+
     new_issue.save()
 
     serializer = IssueSerializer(new_issue, many=False)
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.data)
 
 
 @api_view(['PUT'])
