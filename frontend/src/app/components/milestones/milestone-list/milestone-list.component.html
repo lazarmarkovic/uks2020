@@ -30,14 +30,14 @@
                     </td>
                 </ng-container>
 
-                <!-- end date Column -->
+                <!-- state Column -->
                 <ng-container matColumnDef="state" class="table-row">
                     <th mat-header-cell *matHeaderCellDef>Status</th>
                     <td mat-cell *matCellDef="let element">
-                        <ng-container *ngIf=" element.state === 'OP'">
+                        <ng-container *ngIf=" element.state === stateEnum.Open.toString()">
                             Open
                         </ng-container>
-                        <ng-container *ngIf="element.state != 'OP'">
+                        <ng-container *ngIf="element.state != stateEnum.Open.toString()">
                             Closed
                         </ng-container>
 
@@ -55,7 +55,8 @@
                             <mat-icon aria-label="Delete milestone">delete</mat-icon>
                         </button>
                         <ng-container *ngIf=" element.state === 'OP'">
-                            <button mat-icon-button color="warn" (click)="changeState(element, 'CL')"
+                            <button mat-icon-button color="warn"
+                                (click)="changeState(element, stateEnum.Closed.toString())"
                                 matTooltip="Close this milestone" [matTooltipPosition]="reopen_position.value">
                                 <span class="material-icons">
                                     check_circle_outline
@@ -63,7 +64,8 @@
                             </button>
                         </ng-container>
                         <ng-container *ngIf=" element.state != 'OP'">
-                            <button mat-icon-button color="warn" (click)="changeState(element, 'OP')"
+                            <button mat-icon-button color="warn"
+                                (click)="changeState(element, stateEnum.Open.toString())"
                                 matTooltip="Reopen this milestone" [matTooltipPosition]="reopen_position.value">
                                 <span class="material-icons">
                                     lock_open

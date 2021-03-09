@@ -6,10 +6,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TooltipPosition } from '@angular/material/tooltip';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Issue } from 'src/app/models/issue.model';
 import { IssueService } from 'src/app/services/issue.service';
+import { State } from 'src/app/shared/enums/state';
 
 @Component({
   selector: 'app-issue-list',
@@ -34,6 +35,7 @@ export class IssueListComponent implements OnInit {
   }
 
   constructor(
+    private router: Router,
     private issueService: IssueService,
     public activetedRoute: ActivatedRoute,
     private tService: ToastrService,
@@ -77,6 +79,10 @@ export class IssueListComponent implements OnInit {
     );
   }
 
+  viewIssueDetails(issue: Issue) {
+    this.router.navigate([`repos/${this.repo_id}/issues/${issue.id}`]);
+  }
+
   edit(issue: Issue) {
 
   }
@@ -85,4 +91,7 @@ export class IssueListComponent implements OnInit {
     this.location.back();
   }
 
+  public get stateEnum(): typeof State {
+    return State;
+  }
 }

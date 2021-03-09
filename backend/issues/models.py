@@ -28,9 +28,8 @@ class Issue(models.Model):
     )
     due_date = models.DateField()
     weight = models.IntegerField()
-    assignees = models.ManyToManyField(User)
-    # TODO Make this field optional
-    milestone = models.ForeignKey(Milestone, on_delete=models.CASCADE)
+    assignees = models.ManyToManyField(User, blank=True)
+    milestone = models.ForeignKey(Milestone, blank=True, null=True, on_delete=models.SET_NULL)
     repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
     state = models.CharField(
         max_length=2,

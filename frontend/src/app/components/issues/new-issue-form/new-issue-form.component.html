@@ -50,28 +50,31 @@
                                     {{type}}
                                 </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="form.controls['type'].hasError('required')">
+                                Issue type is required.
+                            </mat-error>
                         </mat-form-field>
 
                         <!--milestone-->
-
-                        <mat-form-field class="formField" appearance="fill">
+                        <!--
+                         <mat-form-field class="formField" appearance="fill">
                             <mat-label>Milestone (optional)</mat-label>
                             <mat-select matInput formControlName="milestone">
                                 <mat-option *ngFor="let milestone of milestones" [value]="milestone.id">
                                     {{milestone.name}}
                                 </mat-option>
                             </mat-select>
-                        </mat-form-field>
+                        </mat-form-field> -->
 
                         <!--assignees-->
-                        <mat-form-field class="formField" appearance="fill">
+                        <!--                         <mat-form-field class="formField" appearance="fill">
                             <mat-label>Add assignees(s) (optional)</mat-label>
                             <mat-select formControlName="assignees" multiple>
                                 <mat-option *ngFor="let collaborator of collaborators" [value]="collaborator.id">
                                     {{collaborator.username}}
                                 </mat-option>
                             </mat-select>
-                        </mat-form-field>
+                        </mat-form-field> -->
 
                         <button mat-raised-button (click)="cancel()">
                             Cancel

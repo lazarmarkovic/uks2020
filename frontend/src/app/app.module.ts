@@ -52,6 +52,9 @@ import { MilestoneListComponent } from './components/milestones/milestone-list/m
 import { DatePipe } from '@angular/common';
 import { IssueListComponent } from './components/issues/issue-list/issue-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { IssueDetailsComponent } from './components/issues/issue-details/issue-details.component';
+import { AssignIssueDialogComponent } from './components/issues/assign-issue-dialog/assign-issue-dialog.component';
+import { IssueAssignMilestoneComponent } from './components/issues/issue-assign-milestone/issue-assign-milestone.component';
 
 
 
@@ -71,7 +74,10 @@ import { MatSelectModule } from '@angular/material/select';
     NewMilestoneFormComponent,
     MilestoneUpdateDialogComponent,
     IssueListComponent,
-    NewIssueFormComponent
+    NewIssueFormComponent,
+    IssueDetailsComponent,
+    AssignIssueDialogComponent,
+    IssueAssignMilestoneComponent
   ],
   imports: [
     BrowserModule,
