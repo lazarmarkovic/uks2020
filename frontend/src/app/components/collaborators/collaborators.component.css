@@ -1,0 +1,15 @@
+.table-row {
+  padding-left: 2em;
+}
+
+table {
+  width: 100%;
+}
+
+.markdown {
+  width: 100%;
+}
+
+.readme-header {
+  background-color: #f5f5f5;
+}
