@@ -44,6 +44,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
@@ -56,6 +57,7 @@ import { IssueDetailsComponent } from './components/issues/issue-details/issue-d
 import { AssignIssueDialogComponent } from './components/issues/assign-issue-dialog/assign-issue-dialog.component';
 import { IssueAssignMilestoneComponent } from './components/issues/issue-assign-milestone/issue-assign-milestone.component';
 import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
+import { SearchCollaboratorsDialogComponent } from './components/collaborators/search-collaborators-dialog/search-collaborators-dialog.component';
 
 
 
@@ -79,7 +81,8 @@ import { CollaboratorsComponent } from './components/collaborators/collaborators
     IssueDetailsComponent,
     AssignIssueDialogComponent,
     IssueAssignMilestoneComponent,
-    CollaboratorsComponent
+    CollaboratorsComponent,
+    SearchCollaboratorsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -113,7 +116,9 @@ import { CollaboratorsComponent } from './components/collaborators/collaborators
     MatNativeDateModule,
     MatDatepickerModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatAutocompleteModule
+
   ],
   providers: [
     {
