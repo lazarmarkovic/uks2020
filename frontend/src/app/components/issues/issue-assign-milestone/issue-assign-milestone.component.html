@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Edit milestone</h1>
+<div class="dialog-content" mat-dialog-content>
+    <div class="container">
+        <form (ngSubmit)="onSubmit()" [formGroup]="form">
+            <mat-form-field class="formField" appearance="fill">
+                <mat-label>Milestone</mat-label>
+                <mat-select matInput formControlName="milestone">
+                    <mat-option *ngFor="let milestone of milestones" [value]="milestone.id">
+                        {{milestone.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onSubmit()" [disabled]="!form.valid">Submit</button>
+    <button mat-button [mat-dialog-close]="null" cdkFocusInitial>
+        Cancel
+    </button>
+</div>

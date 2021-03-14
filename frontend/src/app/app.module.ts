@@ -22,6 +22,7 @@ import { RepoUpdateDialogComponent } from './components/repo-update-dialog/repo-
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { NewMilestoneFormComponent } from './components/milestones/new-milestone-form/new-milestone-form.component';
 import { MilestoneUpdateDialogComponent } from './components/milestones/milestone-update-dialog/milestone-update-dialog.component';
+import { NewIssueFormComponent } from './components/issues/new-issue-form/new-issue-form.component';
 
 
 /* Material design imports */
@@ -49,6 +50,12 @@ import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
 import { MilestoneListComponent } from './components/milestones/milestone-list/milestone-list.component';
 import { DatePipe } from '@angular/common';
+import { IssueListComponent } from './components/issues/issue-list/issue-list.component';
+import { MatSelectModule } from '@angular/material/select';
+import { IssueDetailsComponent } from './components/issues/issue-details/issue-details.component';
+import { AssignIssueDialogComponent } from './components/issues/assign-issue-dialog/assign-issue-dialog.component';
+import { IssueAssignMilestoneComponent } from './components/issues/issue-assign-milestone/issue-assign-milestone.component';
+
 
 
 
@@ -66,6 +73,11 @@ import { DatePipe } from '@angular/common';
     MilestoneListComponent,
     NewMilestoneFormComponent,
     MilestoneUpdateDialogComponent,
+    IssueListComponent,
+    NewIssueFormComponent,
+    IssueDetailsComponent,
+    AssignIssueDialogComponent,
+    IssueAssignMilestoneComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +109,9 @@ import { DatePipe } from '@angular/common';
     MatDialogModule,
     MatProgressSpinnerModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatSelectModule,
+    MatFormFieldModule
   ],
   providers: [
     {

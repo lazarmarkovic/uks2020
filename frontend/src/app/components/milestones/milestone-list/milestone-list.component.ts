@@ -14,6 +14,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { MilestoneUpdateDialogComponent } from '../milestone-update-dialog/milestone-update-dialog.component';
+import { State } from 'src/app/shared/enums/state';
 
 
 @Component({
@@ -123,6 +124,11 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
 
   back() {
     this.location.back();
+  }
+
+
+  public get stateEnum(): typeof State {
+    return State;
   }
 
 

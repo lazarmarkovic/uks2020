@@ -1,0 +1,60 @@
+<div class="container">
+    <button mat-icon-button aria-label="keyboard_backspace" (click)="back()">
+        <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>{{issue.title}}</h2>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <div class="col-8">
+                    <h3><b>Description</b></h3>
+                    <p>{{issue.description}}</p>
+                    <h3><b>Due date</b></h3>
+                    <p>{{issue.due_date}}</p>
+                    <h3><b>Weight</b></h3>
+                    <p>{{issue.weight}}</p>
+                </div>
+                <div class="col-4">
+
+                    <ng-container *ngIf=" issue.state === state.Open.toString()">
+                        <h2><button mat-flat-button color="primary" (click)="closeIssue(issue)">Close issue</button>
+                        </h2>
+                    </ng-container>
+                    <br />
+                    <h2><b>Milestone</b>
+                        <button *ngIf=" issue.milestone === null || issue.milestone === undefined" mat-icon-button
+                            (click)="openAddMilestoneDialog(issue)">
+                            <mat-icon aria-label="Add milestone">add</mat-icon>
+                        </button>
+                        <button *ngIf=" issue.milestone != null && issue.milestone != undefined" mat-icon-button
+                            (click)="removeMilestone(issue.id, issue.milestone.id)">
+                            <mat-icon aria-label="Remove milestone">delete</mat-icon>
+                        </button>
+
+                    </h2>
+                    <h3>
+                        <ng-container *ngIf=" issue.milestone != null && issue.milestone != undefined">
+                            {{issue.milestone.name}}
+                        </ng-container>
+                    </h3>
+                    <br />
+                    <h2><b>Assignees</b>
+                        <button mat-icon-button (click)="openAssignIssueDialog(issue)">
+                            <mat-icon aria-label="Edit assignees">edit</mat-icon>
+                        </button>
+                    </h2>
+                    <ul *ngIf=" issue.assignees != null && issue.assignees != undefined">
+                        <li *ngFor="let assignee of issue.assignees; let i = index">
+                            {{assignee.username}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </mat-card-content>
+
+    </mat-card>
+</div>

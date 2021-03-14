@@ -53,8 +53,13 @@
       <br />
       <h2>About</h2>
       <h4>{{ repo_obj.description }}</h4>
+      <br />
       <h2>
         <button mat-flat-button color="primary" [routerLink]="['/repos', repo_obj.id, 'milestones']">Milestones</button>
+      </h2>
+      <br />
+      <h2>
+        <button mat-flat-button color="primary" [routerLink]="['/repos', repo_obj.id, 'issues']">Issues</button>
       </h2>
     </div>
   </div>
