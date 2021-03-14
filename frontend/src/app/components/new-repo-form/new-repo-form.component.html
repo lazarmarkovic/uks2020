@@ -7,65 +7,36 @@
           <form (ngSubmit)="onSubmit()" [formGroup]="newRepoForm">
             <mat-form-field class="formField">
               <mat-label>Name</mat-label>
-              <input
-                class="text-input"
-                matInput
-                type="text"
-                formControlName="name"
-              />
-              <mat-error
-                *ngIf="newRepoForm.controls['name'].hasError('required')"
-              >
+              <input class="text-input" matInput type="text" formControlName="name" />
+              <mat-error *ngIf="newRepoForm.controls['name'].hasError('required')">
                 Repo name is required.
               </mat-error>
-              <mat-error
-                *ngIf="newRepoForm.controls['name'].hasError('minlength')"
-              >
+              <mat-error *ngIf="newRepoForm.controls['name'].hasError('minlength')">
                 Repo name should contain at least 5 characters
               </mat-error>
             </mat-form-field>
 
             <mat-form-field class="formField">
               <mat-label>Description (Optional)</mat-label>
-              <textarea
-                class="text-input"
-                matInput
-                formControlName="description"
-              ></textarea>
+              <textarea class="text-input" matInput formControlName="description"></textarea>
             </mat-form-field>
 
             <mat-form-field class="formField">
               <mat-label>Github URL</mat-label>
-              <input
-                class="text-input"
-                matInput
-                type="text"
-                formControlName="url"
-              />
-              <mat-error
-                *ngIf="newRepoForm.controls['url'].hasError('required')"
-              >
+              <input class="text-input" matInput type="text" formControlName="url" />
+              <mat-error *ngIf="newRepoForm.controls['url'].hasError('required')">
                 Github URL is required.
               </mat-error>
-              <mat-error
-                *ngIf="newRepoForm.controls['url'].hasError('minlength')"
-              >
+              <mat-error *ngIf="newRepoForm.controls['url'].hasError('minlength')">
                 Github URL should contain at least 5 characters
               </mat-error>
             </mat-form-field>
 
             <div class="checkox-field">
-              <mat-checkbox (change)="checkPrivate($event)"
-                >Private</mat-checkbox
-              >
+              <mat-checkbox (change)="checkPrivate($event)">Private</mat-checkbox>
             </div>
 
-            <button
-              class="submit-btn"
-              mat-raised-button
-              type="submit"
-              [disabled]="false"
-            >
+            <button class="submit-btn" mat-raised-button type="submit" [disabled]="false">
               Add
             </button>
           </form>

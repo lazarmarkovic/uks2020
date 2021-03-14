@@ -20,7 +20,8 @@ import { CommitListComponent } from './components/commit-list/commit-list.compon
 import { NewRepoFormComponent } from './components/new-repo-form/new-repo-form.component';
 import { RepoUpdateDialogComponent } from './components/repo-update-dialog/repo-update-dialog.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
-
+import { NewMilestoneFormComponent } from './components/milestones/new-milestone-form/new-milestone-form.component';
+import { MilestoneUpdateDialogComponent } from './components/milestones/milestone-update-dialog/milestone-update-dialog.component';
 
 
 /* Material design imports */
@@ -31,20 +32,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
-import { MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
+import { MilestoneListComponent } from './components/milestones/milestone-list/milestone-list.component';
+import { DatePipe } from '@angular/common';
+
 
 
 @NgModule({
@@ -58,6 +63,9 @@ import { HttpClient } from '@angular/common/http';
     NewRepoFormComponent,
     RepoUpdateDialogComponent,
     ConfirmationDialogComponent,
+    MilestoneListComponent,
+    NewMilestoneFormComponent,
+    MilestoneUpdateDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +96,8 @@ import { HttpClient } from '@angular/common/http';
     MatTooltipModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ],
   providers: [
     {
@@ -99,7 +109,8 @@ import { HttpClient } from '@angular/common/http';
       provide: HTTP_INTERCEPTORS,
       useClass: APIInterceptor,
       multi: true,
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

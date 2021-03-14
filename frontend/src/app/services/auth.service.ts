@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import {User} from '../models/user.model';
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +30,14 @@ export class AuthService {
     } else {
       return undefined;
     }
+  }
+
+  isAuthenticated(): boolean {
+    const jwtHelper = new JwtHelperService();
+    const token = sessionStorage.getItem('accessToken');
+    if (!token) {
+      return false;
+    }
+    return !jwtHelper.isTokenExpired(token);
   }
 }
