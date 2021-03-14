@@ -1,0 +1,46 @@
+<div class="jumbotron vertical-center">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-6">
+                <mat-card class="formHolder">
+                    <h2>New Milestone</h2>
+                    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+                        <mat-form-field class="formField">
+                            <mat-label>Title</mat-label>
+                            <input class="text-input" matInput type="text" formControlName="name" />
+                            <mat-error *ngIf="form.controls['name'].hasError('required')">
+                                Milestone title is required.
+                            </mat-error>
+                            <mat-error *ngIf="form.controls['name'].hasError('minlength')">
+                                Milestone title should contain at least 5 characters
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="formField">
+                            <mat-label>Description (Optional)</mat-label>
+                            <textarea class="text-input" matInput formControlName="description"></textarea>
+                        </mat-form-field>
+
+
+                        <mat-form-field class="formField" appearance="fill">
+                            <mat-label>Due date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="serializedDate"
+                                placeholder="Choose a date">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+
+                        <button mat-raised-button (click)="cancel()">
+                            Cancel
+                        </button>
+                        <button class="submit-btn" mat-raised-button type="submit" [disabled]="!form.valid">
+                            Submit
+                        </button>
+
+                    </form>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

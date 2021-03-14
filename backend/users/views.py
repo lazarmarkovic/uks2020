@@ -42,7 +42,7 @@ def create_user(request):
         raise GeneralException("Request is invalid.")
 
     if User.objects.filter(username=user_ser.data['username']).exists():
-        raise GeneralException("User with given username alreagy exists.")
+        raise GeneralException("User with given username already exists.")
 
     validated_data = user_ser.data
     created_user = User.objects.create(

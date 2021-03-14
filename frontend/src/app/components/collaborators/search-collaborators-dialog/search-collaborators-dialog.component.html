@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Search users</h1>
+<div class="dialog-content" mat-dialog-content>
+    <div class="container">
+        <mat-form-field class="formField" appearance="fill">
+            <mat-label>Search by username</mat-label>
+            <input [formControl]="userInput" type="text" matInput [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option *ngFor="let user of filteredUsers$ | async; let index = index" [value]="user.username"
+                    (click)="addCollaborator(user.id)">
+                    {{ user.username}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="null" cdkFocusInitial>
+        Cancel
+    </button>
+</div>

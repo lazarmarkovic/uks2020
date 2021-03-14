@@ -220,3 +220,56 @@ def get_all_commits(request, repo_name, branch_name):
 
     serializer = CommitSerializer(repos, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_repo_collaborators(request, repo_id):
+    repo = get_object_or_404(Repository, pk=repo_id)
+    serializer = UserSerializer(repo.collaborators, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def update_collaborators(request, repo_id):
+    repo = get_object_or_404(Repository, pk=repo_id)
+    signed_in_user = request.user.id
+
+    if repo.user.id != signed_in_user:
+        raise GeneralException("Not authorized")
+
+    user_id_list = request.data
+
+    if len(user_id_list) > 0:
+        repo.collaborators.clear()
+        repo.collaborators.add(*user_id_list)
+    else:
+        repo.assignees.clear()
+
+    repo.save()
+    repo.refresh_from_db()
+
+    serializer = UserSerializer(repo.collaborators, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def search_users_for_collaborators(request, repo_id, search_value):
+    signed_in_user = request.user.id
+    repo = get_object_or_404(Repository, pk=repo_id);
+    if repo.user.id != signed_in_user:
+        raise GeneralException("Not authorized")
+
+    repo_collaborators = repo.collaborators.all()
+
+    potential_collaborators = User.objects.filter(is_active=True, is_superuser=False, is_staff=False, username__icontains=search_value).exclude(pk=signed_in_user)
+
+    serializer = UserSerializer(potential_collaborators.difference(repo_collaborators), many=True)
+    return Response(serializer.data)
+
+

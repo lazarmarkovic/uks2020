@@ -17,5 +17,7 @@ urlpatterns = [
     # App routes
     path('api/repos/', include('repository.urls')),
     path('api/users/', include('users.urls')),
-    path('api/labels/', include('labels.urls'))
+    path('api/labels/', include('labels.urls')),
+    path('api/milestones/', include('milestones.urls')),
+    path('api/issues/', include('issues.urls'))
 ]

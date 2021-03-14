@@ -8,7 +8,7 @@ class Repository(models.Model):
     url = models.CharField(max_length=512)
     is_private = models.BooleanField(default=False)
     readme = models.TextField(default="")
-
+    collaborators = models.ManyToManyField(User, blank=True, related_name='collaborators')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
