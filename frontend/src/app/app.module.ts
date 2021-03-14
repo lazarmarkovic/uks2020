@@ -55,11 +55,13 @@ import { MatRadioModule } from '@angular/material/radio';
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
+import { LabelsListComponent } from './components/labels-list/labels-list.component';
+import { LabelUpdateDialogComponent } from './components/label-update-dialog/label-update-dialog.component';
+import { NewLabelFormComponent } from './components/new-label-form/new-label-form.component';
 import { MilestoneListComponent } from './components/milestones/milestone-list/milestone-list.component';
 import { DatePipe } from '@angular/common';
 import { IssueListComponent } from './components/issues/issue-list/issue-list.component';
 import { MatSelectModule } from '@angular/material/select';
-
 
 
 @NgModule({
@@ -73,6 +75,9 @@ import { MatSelectModule } from '@angular/material/select';
     NewRepoFormComponent,
     RepoUpdateDialogComponent,
     ConfirmationDialogComponent,
+    LabelsListComponent,
+    LabelUpdateDialogComponent,
+    NewLabelFormComponent,
     MilestoneListComponent,
     NewMilestoneFormComponent,
     MilestoneUpdateDialogComponent,
@@ -84,7 +89,6 @@ import { MatSelectModule } from '@angular/material/select';
     CollaboratorsComponent,
     SearchCollaboratorsDialogComponent,
     IssueUpdateDialogComponent
-
   ],
   imports: [
     BrowserModule,

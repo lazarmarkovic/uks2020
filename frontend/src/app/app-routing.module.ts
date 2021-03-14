@@ -6,6 +6,7 @@ import { RepositoryListComponent } from './components/repository-list/repository
 import { BranchListComponent } from './components/branch-list/branch-list.component';
 import { CommitListComponent } from './components/commit-list/commit-list.component';
 import { NewRepoFormComponent } from './components/new-repo-form/new-repo-form.component';
+import { LabelsListComponent } from './components/labels-list/labels-list.component';
 import { MilestoneListComponent } from './components/milestones/milestone-list/milestone-list.component';
 import { AuthGuardService } from './shared/route-guards/auth-guard.service';
 import { NewMilestoneFormComponent } from './components/milestones/new-milestone-form/new-milestone-form.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'repos/:repo/branches/:branch/commits', component: CommitListComponent },
 
   { path: 'repos/add', component: NewRepoFormComponent },
+  { path: 'labels', component: LabelsListComponent },
   { path: 'repos/:repo_id/milestones', component: MilestoneListComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
   { path: 'repos/:repo_id/milestones/create', component: NewMilestoneFormComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
   { path: 'repos/:repo_id/issues', component: IssueListComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
