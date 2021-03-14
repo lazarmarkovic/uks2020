@@ -4,7 +4,6 @@
             <button mat-icon-button aria-label="keyboard_backspace" (click)="back()">
                 <mat-icon>keyboard_backspace</mat-icon>
             </button>
-
             <table mat-table [dataSource]="dataSource">
                 <!-- name Column -->
                 <ng-container matColumnDef="name" class="table-row">
@@ -87,6 +86,21 @@
             <h2>
                 <button mat-flat-button color="primary" [routerLink]="['create']">Add new milestone</button>
             </h2>
+            <br />
+            <div>
+                <label id="example-radio-group-label">Filter by status</label>
+                <button mat-icon-button (click)="resetStateFilter()">
+                    <mat-icon aria-label="Reset filter">refresh</mat-icon>
+                </button>
+                <br>
+                <mat-radio-group id="state_rg" aria-label="Select an option" name="filter_rg"
+                    (change)="radioChange($event)" [(ngModel)]="selectedValue">
+                    <mat-radio-button value="OP">Open
+                    </mat-radio-button>
+                    <mat-radio-button value="CL">Closed
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
         </div>
     </div>
 </div>

@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { MilestoneUpdateDialogComponent } from '../milestone-update-dialog/milestone-update-dialog.component';
 import { State } from 'src/app/shared/enums/state';
+import { MatRadioChange } from '@angular/material/radio';
 
 
 @Component({
@@ -33,6 +34,8 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
   positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
   reopen_position = new FormControl(this.positionOptions[5]);
   edit_position = new FormControl(this.positionOptions[2]);
+
+  selectedValue: string;
 
   ngAfterViewInit(): void {
     // @ts-ignore
@@ -129,6 +132,22 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
 
   public get stateEnum(): typeof State {
     return State;
+  }
+
+  radioChange($event: MatRadioChange) {
+    if ($event.source.name === 'filter_rg') {
+      let milestones = this.milestones.filter(milestone => milestone.state === $event.source.value);
+      this.dataSource = new MatTableDataSource<Milestone>(milestones);
+      this.dataSource.paginator = this.paginator;
+
+    }
+
+  }
+
+  resetStateFilter() {
+    console.log(this.selectedValue)
+    this.selectedValue = null;
+    this.gettMilestonesForRepository(this.repo_id);
   }
 
 
