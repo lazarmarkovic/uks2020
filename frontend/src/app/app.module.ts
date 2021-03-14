@@ -23,7 +23,12 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { NewMilestoneFormComponent } from './components/milestones/new-milestone-form/new-milestone-form.component';
 import { MilestoneUpdateDialogComponent } from './components/milestones/milestone-update-dialog/milestone-update-dialog.component';
 import { NewIssueFormComponent } from './components/issues/new-issue-form/new-issue-form.component';
-
+import { IssueDetailsComponent } from './components/issues/issue-details/issue-details.component';
+import { AssignIssueDialogComponent } from './components/issues/assign-issue-dialog/assign-issue-dialog.component';
+import { IssueAssignMilestoneComponent } from './components/issues/issue-assign-milestone/issue-assign-milestone.component';
+import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
+import { SearchCollaboratorsDialogComponent } from './components/collaborators/search-collaborators-dialog/search-collaborators-dialog.component';
+import { IssueUpdateDialogComponent } from './components/issues/issue-update-dialog/issue-update-dialog.component';
 
 /* Material design imports */
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -44,6 +49,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
@@ -52,11 +58,6 @@ import { MilestoneListComponent } from './components/milestones/milestone-list/m
 import { DatePipe } from '@angular/common';
 import { IssueListComponent } from './components/issues/issue-list/issue-list.component';
 import { MatSelectModule } from '@angular/material/select';
-import { IssueDetailsComponent } from './components/issues/issue-details/issue-details.component';
-import { AssignIssueDialogComponent } from './components/issues/assign-issue-dialog/assign-issue-dialog.component';
-import { IssueAssignMilestoneComponent } from './components/issues/issue-assign-milestone/issue-assign-milestone.component';
-import { IssueUpdateDialogComponent } from './components/issues/issue-update-dialog/issue-update-dialog.component';
-
 
 
 
@@ -79,7 +80,10 @@ import { IssueUpdateDialogComponent } from './components/issues/issue-update-dia
     IssueDetailsComponent,
     AssignIssueDialogComponent,
     IssueAssignMilestoneComponent,
+    CollaboratorsComponent,
+    SearchCollaboratorsDialogComponent,
     IssueUpdateDialogComponent
+
   ],
   imports: [
     BrowserModule,
@@ -113,7 +117,9 @@ import { IssueUpdateDialogComponent } from './components/issues/issue-update-dia
     MatNativeDateModule,
     MatDatepickerModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatAutocompleteModule
+
   ],
   providers: [
     {

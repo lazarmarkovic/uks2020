@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <button mat-icon-button aria-label="keyboard_backspace" (click)="back()">
+                <mat-icon>keyboard_backspace</mat-icon>
+            </button>
+            <table mat-table [dataSource]="dataSource">
+                <!-- name Column -->
+                <ng-container matColumnDef="name" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Fullname</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.first_name}} {{element.last_name }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="email" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.email }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="username" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Username</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.username }}
+                    </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="actions" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button aria-label="Action" (click)="removeCollaborator(element.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <div class="col-4">
+            <br />
+            <h2>
+                <button mat-flat-button color="primary" (click)="openSerachCollaboratorsDialog()">Add
+                    collaborator</button>
+            </h2>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,7 @@ import { NewMilestoneFormComponent } from './components/milestones/new-milestone
 import { IssueListComponent } from './components/issues/issue-list/issue-list.component';
 import { NewIssueFormComponent } from './components/issues/new-issue-form/new-issue-form.component';
 import { IssueDetailsComponent } from './components/issues/issue-details/issue-details.component';
+import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
 
 
 
@@ -29,7 +30,8 @@ const routes: Routes = [
   { path: 'repos/:repo_id/milestones/create', component: NewMilestoneFormComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
   { path: 'repos/:repo_id/issues', component: IssueListComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
   { path: 'repos/:repo_id/issues/create', component: NewIssueFormComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
-  { path: 'repos/:repo_id/issues/:issue_id', component: IssueDetailsComponent, pathMatch: 'full', canActivate: [AuthGuardService] }
+  { path: 'repos/:repo_id/issues/:issue_id', component: IssueDetailsComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
+  { path: 'repos/:repo_id/collaborators', component: CollaboratorsComponent, pathMatch: 'full', canActivate: [AuthGuardService] }
 ];
 
 @NgModule({

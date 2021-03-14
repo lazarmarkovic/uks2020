@@ -53,4 +53,12 @@ export class RepoService {
   getCollaborators(repoId: number): Observable<any> {
     return this.httpClient.get(`/api/repos/${repoId}/collaborators/get-all`)
   }
+
+  updateCollaborators(repo_id: number, collaborator_id_list: number[]): Observable<any> {
+    return this.httpClient.put(`/api/repos/${repo_id}/collaborators/update`, collaborator_id_list)
+  }
+
+  searchUsersForCollaborators(search_val: string, repo_id: number): Observable<any> {
+    return this.httpClient.get(`/api/repos/${repo_id}/search/${search_val}`);
+  }
 }
