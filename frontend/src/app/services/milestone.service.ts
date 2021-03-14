@@ -28,8 +28,4 @@ export class MilestoneService {
     return this.httpClient.delete(`/api/milestones/${milestoneId}/delete`);
   }
 
-  filterByState(state: string, repositoryId: number) {
-    return this.httpClient.get(`/api/milestones/${repositoryId}/${state}`);
-  }
-
 }
