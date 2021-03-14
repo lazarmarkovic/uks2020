@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Issue } from 'src/app/models/issue.model';
 import { IssueService } from 'src/app/services/issue.service';
 import { State } from 'src/app/shared/enums/state';
+import { IssueUpdateDialogComponent } from '../issue-update-dialog/issue-update-dialog.component';
 
 @Component({
   selector: 'app-issue-list',
@@ -84,7 +85,16 @@ export class IssueListComponent implements OnInit {
   }
 
   edit(issue: Issue) {
+    const dialogRef = this.dialog.open(IssueUpdateDialogComponent, {
+      width: '40em',
+      data: issue,
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'updated') {
+        this.getIssuesForRepository(this.repo_id);
+      }
+    });
   }
 
   back() {

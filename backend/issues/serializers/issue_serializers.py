@@ -10,11 +10,12 @@ class IssueUpdateSerializer(serializers.Serializer):
     description = serializers.CharField(max_length=1024)
     due_date = serializers.DateField()
     weight = serializers.IntegerField()
-    milestone = MilestoneSerializer(many=False, required=False, allow_null=True)
-    state = serializers.CharField(
-         max_length=2
+    type = serializers.CharField(
+        max_length=10,
     )
-    assignees = UserSerializer(many=True, required=False, allow_null=True)
+    state = serializers.CharField(
+        max_length=2
+    )
 
 class IssueCreateSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=512)

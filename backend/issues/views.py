@@ -88,22 +88,22 @@ def create_issue(request, repository_id):
 @permission_classes([IsAuthenticated])
 def update_issue(request, issue_id):
     issue_ser = IssueUpdateSerializer(data=request.data)
-
     issue = get_object_or_404(Issue, pk=issue_id)
-    found_issues = Issue.objects.filter(title=request.data["title"]).exclude(pk=issue_id)
-
-    if len(found_issues) > 0:
-        raise GeneralException("Issue with given name already exists.")
 
     if not issue_ser.is_valid():
         print(issue_ser.errors)
         raise GeneralException("Invalid request.")
 
+    found_issues = Issue.objects.filter(title=request.data["title"]).exclude(pk=issue_id)
+    if len(found_issues) > 0:
+        raise GeneralException("Issue with given name already exists.")
+
     issue.title = issue_ser.data['title']
     issue.description = issue_ser.data['description']
-    issue.state = issue_ser.data['state']
     issue.due_date = parse_date(issue_ser.data['due_date'])
     issue.weight = issue_ser.data['weight']
+    issue.type = issue_ser.data['type']
+    issue.state = issue_ser.data['state']
     issue.save()
 
     issue.refresh_from_db()

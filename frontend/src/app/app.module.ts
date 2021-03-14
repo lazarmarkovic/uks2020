@@ -55,6 +55,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { IssueDetailsComponent } from './components/issues/issue-details/issue-details.component';
 import { AssignIssueDialogComponent } from './components/issues/assign-issue-dialog/assign-issue-dialog.component';
 import { IssueAssignMilestoneComponent } from './components/issues/issue-assign-milestone/issue-assign-milestone.component';
+import { IssueUpdateDialogComponent } from './components/issues/issue-update-dialog/issue-update-dialog.component';
 
 
 
@@ -77,7 +78,8 @@ import { IssueAssignMilestoneComponent } from './components/issues/issue-assign-
     NewIssueFormComponent,
     IssueDetailsComponent,
     AssignIssueDialogComponent,
-    IssueAssignMilestoneComponent
+    IssueAssignMilestoneComponent,
+    IssueUpdateDialogComponent
   ],
   imports: [
     BrowserModule,
