@@ -51,7 +51,20 @@
                 </mat-error>
             </mat-form-field>
 
+            <mat-form-field class="formField" appearance="fill">
+                <mat-label> Label </mat-label>
+                <mat-select fromControlName="label">
+                    <mat-option *ngFor="let label of labels" [value]="label" [style.background-color] = "label.color" (click) ="labelSelected(label)">
+                        {{label.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
 
+            <mat-label> Selected Labels </mat-label>
+            <mat-list class="inline-list">
+                <mat-list-item *ngFor="let selectedLabel of selectedLabels" [style.background-color] = "selectedLabel.color"> {{selectedLabel.name}} </mat-list-item>
+            </mat-list>
+            
         </form>
     </div>
 </div>

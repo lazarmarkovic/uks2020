@@ -3,6 +3,7 @@ from django.db import models
 
 from milestones.models import Milestone
 from repository.models import Repository
+from labels.models import Label
 
 ISSUE = 'ISSUE'
 INCIDENT = 'INCIDENT'
@@ -36,6 +37,7 @@ class Issue(models.Model):
         choices=STATE,
         default=OPEN
     )
+    labels = models.ManyToManyField(Label, blank=True)
 
     class Meta:
         ordering = ['-due_date']

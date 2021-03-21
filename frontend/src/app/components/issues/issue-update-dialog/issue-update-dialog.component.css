@@ -35,3 +35,7 @@
 .container {
   width: 100%;
 }
+
+.mat-list-base.inline-list {
+  display: flex;
+}
