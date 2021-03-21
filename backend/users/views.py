@@ -32,9 +32,6 @@ def get_auth_user(request):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 def create_user(request):
     user_ser = UserCreateSerializer(data=request.data)
 

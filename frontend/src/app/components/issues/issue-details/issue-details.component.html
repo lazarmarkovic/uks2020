@@ -17,6 +17,7 @@
                     <p>{{issue.due_date}}</p>
                     <h3><b>Weight</b></h3>
                     <p>{{issue.weight}}</p>
+                    <h3><b>Labels</b></h3>
                 </div>
                 <div class="col-4">
 
@@ -51,6 +52,11 @@
                         <li *ngFor="let assignee of issue.assignees; let i = index">
                             {{assignee.username}}
                         </li>
+                    </ul>
+                    <ul *ngIf=" issue.labels != null && issue.labels != undefined">
+                        <mat-list class="inline-list">
+                            <mat-list-item *ngFor="let label of issue.labels" [style.background-color] = "label.color"> {{label.name}} </mat-list-item>
+                        </mat-list>
                     </ul>
                 </div>
             </div>

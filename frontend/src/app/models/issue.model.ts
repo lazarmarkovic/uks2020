@@ -1,3 +1,4 @@
+import { Label } from "./label.model";
 import { Milestone } from "./milestone.model";
 import { User } from "./user.model";
 
@@ -11,9 +12,11 @@ export class Issue {
     public milestone: Milestone;
     public assignees: User[];
     public type: string;
+    public labels: Label[];
 
 
-    static IssueWithId(title: string, description: string, due_date: string, state: string, weight: number, id: number, type: string, milestone?: Milestone, assignees?: User[]): Issue {
+    static IssueWithId(title: string, description: string, due_date: string, state: string, weight: number, id: number, type: string, milestone?: Milestone, assignees?: User[], 
+        labels?: Label[]): Issue {
         let result = new Issue();
         result.title = title;
         result.description = description;
@@ -24,10 +27,12 @@ export class Issue {
         result.type = type;
         result.milestone = milestone;
         result.assignees = assignees;
+        result.labels = labels;
         return result;
     }
 
-    static IssueWithoutId(title: string, description: string, due_date: string, state: string, type: string, weight: number, milestone?: Milestone, assignees?: User[]): Issue {
+    static IssueWithoutId(title: string, description: string, due_date: string, state: string, type: string, weight: number, milestone?: Milestone, assignees?: User[],
+        labels?: Label[]): Issue {
         var result = new Issue();
         result.title = title;
         result.description = description;
@@ -37,6 +42,7 @@ export class Issue {
         result.type = type;
         result.milestone = milestone;
         result.assignees = assignees;
+        result.labels = labels;
         return result;
     }
 }

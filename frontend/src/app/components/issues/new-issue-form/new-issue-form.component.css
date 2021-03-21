@@ -27,3 +27,7 @@
 .input {
   width: 100% !important;
 }
+
+.mat-list-base.inline-list {
+  display: flex;
+}
