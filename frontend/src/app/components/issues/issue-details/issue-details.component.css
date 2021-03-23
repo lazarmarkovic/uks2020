@@ -2,6 +2,6 @@ mat-card {
   width: 100%;
 }
 
-.mat-list-base.inline-list {
+.inline-list {
   display: flex;
 }
