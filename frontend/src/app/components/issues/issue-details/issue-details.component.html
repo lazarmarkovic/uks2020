@@ -17,7 +17,6 @@
                     <p>{{issue.due_date}}</p>
                     <h3><b>Weight</b></h3>
                     <p>{{issue.weight}}</p>
-                    <h3><b>Labels</b></h3>
                 </div>
                 <div class="col-4">
 
@@ -48,16 +47,18 @@
                             <mat-icon aria-label="Edit assignees">edit</mat-icon>
                         </button>
                     </h2>
-                    <ul *ngIf=" issue.assignees != null && issue.assignees != undefined">
-                        <li *ngFor="let assignee of issue.assignees; let i = index">
+                    <mat-list *ngIf=" issue.assignees != null && issue.assignees != undefined">
+                        <mat-list-item *ngFor="let assignee of issue.assignees; let i = index">
                             {{assignee.username}}
-                        </li>
-                    </ul>
-                    <ul *ngIf=" issue.labels != null && issue.labels != undefined">
-                        <mat-list class="inline-list">
-                            <mat-list-item *ngFor="let label of issue.labels" [style.background-color] = "label.color"> {{label.name}} </mat-list-item>
-                        </mat-list>
-                    </ul>
+                        </mat-list-item>
+                    </mat-list>
+                    <h2><b>Labels</b></h2>
+                    <mat-chip-list class="inline-list" [selectable]="false" cdkDropListOrientation="horizontal">
+                        <mat-chip [selectable]="false" [ngStyle]="{ backgroundColor: label.color }"
+                            *ngFor="let label of issue.labels">
+                            {{label.name}}
+                        </mat-chip>
+                    </mat-chip-list>
                 </div>
             </div>
         </mat-card-content>

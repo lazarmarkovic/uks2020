@@ -21,7 +21,7 @@ import { IssueUpdateDialogComponent } from '../issue-update-dialog/issue-update-
 export class IssueListComponent implements OnInit {
 
   repo_id = null;
-  displayedColumns: string[] = ['title', 'description', 'due_date', 'state', 'weight', 'milestone', 'labels', 'action'];
+  displayedColumns: string[] = ['title', 'description', 'due_date', 'state', 'weight', 'milestone', 'action'];
   dataSource = new MatTableDataSource<Issue>([]);
   issues: Issue[];
   localeID: string;
