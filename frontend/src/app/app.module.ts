@@ -51,6 +51,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
@@ -124,7 +125,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     MatFormFieldModule,
     MatAutocompleteModule,
-    MatRadioModule
+    MatRadioModule,
+    MatExpansionModule
 
   ],
   providers: [
