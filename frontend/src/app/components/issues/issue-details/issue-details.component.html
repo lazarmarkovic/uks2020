@@ -5,7 +5,7 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>
-                <h2>{{issue.title}}</h2>
+                <h1>{{issue.title}}</h1>
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
@@ -17,6 +17,63 @@
                     <p>{{issue.due_date}}</p>
                     <h3><b>Weight</b></h3>
                     <p>{{issue.weight}}</p>
+                    <br />
+
+                    <div>
+                        <mat-expansion-panel hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Comments
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    Click to expand/hide
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+
+                            <div *ngIf="comments != null && comments != undefined">
+                                <mat-card *ngFor="let comment of comments; let i = index" style="margin: 0.5em;">
+                                    <mat-card-header>
+                                        <img mat-card-avatar src="assets/profile.png" alt="profile-image">
+                                        <mat-card-title-group>
+                                            <mat-card-title> {{comment.author.username}}
+                                            </mat-card-title>
+                                            <mat-card-subtitle> {{comment.postedAt}}
+                                            </mat-card-subtitle>
+                                        </mat-card-title-group>
+                                    </mat-card-header>
+
+                                    <mat-card-content>
+                                        {{comment.content}}
+                                    </mat-card-content>
+
+                                    <mat-card-actions *ngIf="comment.author.id === user.id" allign="end">
+                                        <button mat-icon-button (click)="deleteComment(comment)">
+                                            <mat-icon aria-label="Delete comment">delete</mat-icon>
+                                        </button>
+                                    </mat-card-actions>
+
+                                </mat-card>
+                            </div>
+                        </mat-expansion-panel>
+
+                        <div>
+                            <br>
+                            <form [formGroup]="commentForm" (ngSubmit)="onCommentSubmit()">
+
+                                <mat-form-field class="formField">
+                                    <textarea matInput formControlName="content"
+                                        placeholder="Leave a comment..."></textarea>
+                                    <mat-error *ngIf="commentForm.controls['content'].hasError('content')">
+                                        Comment content is required.
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <div class="form-group"><button type="submit" class="btn btn-success"
+                                        [disabled]="!commentForm.valid">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-4">
 

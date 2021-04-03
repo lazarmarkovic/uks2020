@@ -39,4 +39,16 @@ export class IssueService {
   removeMilestone(issue_id: number, milestone_id: number): Observable<any> {
     return this.httpClient.put(`/api/issues/${issue_id}/${milestone_id}/remove-milestone`, {});
   }
+
+  getCommentsForIssue(issue_id: number): Observable<any> {
+    return this.httpClient.get(`/api/comments/${issue_id}/get_all`);
+  }
+
+  submitComment(issue_id: number, comment): Observable<any> {
+    return this.httpClient.post(`/api/comments/${issue_id}/create`, comment);
+  }
+
+  deleteComment(comment_id: number): Observable<any> {
+    return this.httpClient.delete(`/api/comments/delete/${comment_id}`);
+  }
 }

@@ -3,9 +3,12 @@ from abc import ABC
 from rest_framework import serializers
 
 from comments.models import Comment
+from users.serializers import UserSerializer
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = UserSerializer(many=False)
+
     class Meta:
         model = Comment
         fields = '__all__'
