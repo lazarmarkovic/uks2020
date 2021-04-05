@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Update Comment</h1>
+<div class="dialog-content" mat-dialog-content>
+    <div class="container">
+        <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="formField">
+                <textarea matInput formControlName="content" rows="4"></textarea>
+                <mat-error *ngIf="commentForm.controls['content'].hasError('content')">
+                    Comment content is required.
+                </mat-error>
+            </mat-form-field>
+
+            <div class="form-group"><button type="submit" class="btn btn-success"
+                    [disabled]="!commentForm.valid">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

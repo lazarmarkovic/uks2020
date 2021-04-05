@@ -5,7 +5,7 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>
-                <h2>{{issue.title}}</h2>
+                <h1>{{issue.title}}</h1>
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
@@ -17,7 +17,66 @@
                     <p>{{issue.due_date}}</p>
                     <h3><b>Weight</b></h3>
                     <p>{{issue.weight}}</p>
-                    <h3><b>Labels</b></h3>
+                    <br />
+
+                    <div>
+                        <mat-expansion-panel hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Comments
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    Click to expand/hide
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+
+                            <div *ngIf="comments != null && comments != undefined">
+                                <mat-card *ngFor="let comment of comments; let i = index" style="margin: 0.5em;">
+                                    <mat-card-header>
+                                        <img mat-card-avatar src="assets/profile.png" alt="profile-image">
+                                        <mat-card-title-group>
+                                            <mat-card-title> {{comment.author.username}}
+                                            </mat-card-title>
+                                            <mat-card-subtitle> {{comment.postedAt}}
+                                            </mat-card-subtitle>
+                                        </mat-card-title-group>
+                                    </mat-card-header>
+
+                                    <mat-card-content>
+                                        {{comment.content}}
+                                    </mat-card-content>
+
+                                    <mat-card-actions *ngIf="comment.author.id === user.id" allign="end">
+                                        <button mat-icon-button (click)="updateComment(comment)">
+                                            <mat-icon aria-label="Edit comment">edit</mat-icon>
+                                        </button>
+
+                                        <button mat-icon-button (click)="deleteComment(comment)">
+                                            <mat-icon aria-label="Delete comment">delete</mat-icon>
+                                        </button>
+                                    </mat-card-actions>
+                                </mat-card>
+                            </div>
+                        </mat-expansion-panel>
+
+                        <div>
+                            <br>
+                            <form [formGroup]="commentForm" (ngSubmit)="onCommentSubmit()">
+
+                                <mat-form-field class="formField">
+                                    <textarea matInput formControlName="content"
+                                        placeholder="Leave a comment..."></textarea>
+                                    <mat-error *ngIf="commentForm.controls['content'].hasError('content')">
+                                        Comment content is required.
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <div class="form-group"><button type="submit" class="btn btn-success"
+                                        [disabled]="!commentForm.valid">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-4">
 
@@ -48,16 +107,18 @@
                             <mat-icon aria-label="Edit assignees">edit</mat-icon>
                         </button>
                     </h2>
-                    <ul *ngIf=" issue.assignees != null && issue.assignees != undefined">
-                        <li *ngFor="let assignee of issue.assignees; let i = index">
+                    <mat-list *ngIf=" issue.assignees != null && issue.assignees != undefined">
+                        <mat-list-item *ngFor="let assignee of issue.assignees; let i = index">
                             {{assignee.username}}
-                        </li>
-                    </ul>
-                    <ul *ngIf=" issue.labels != null && issue.labels != undefined">
-                        <mat-list class="inline-list">
-                            <mat-list-item *ngFor="let label of issue.labels" [style.background-color] = "label.color"> {{label.name}} </mat-list-item>
-                        </mat-list>
-                    </ul>
+                        </mat-list-item>
+                    </mat-list>
+                    <h2><b>Labels</b></h2>
+                    <mat-chip-list class="inline-list" [selectable]="false" cdkDropListOrientation="horizontal">
+                        <mat-chip [selectable]="false" [ngStyle]="{ backgroundColor: label.color }"
+                            *ngFor="let label of issue.labels">
+                            {{label.name}}
+                        </mat-chip>
+                    </mat-chip-list>
                 </div>
             </div>
         </mat-card-content>

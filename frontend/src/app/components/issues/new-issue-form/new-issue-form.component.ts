@@ -70,8 +70,6 @@ export class NewIssueFormComponent implements OnInit {
     } else {
       this.selectedLabels.push(label);
     }
-
-    console.log(this.selectedLabels);
   }
 
   getMilestonesForRepository(repoId) {

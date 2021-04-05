@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Issue } from 'src/app/models/issue.model';
@@ -14,6 +14,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { AssignIssueDialogComponent } from '../assign-issue-dialog/assign-issue-dialog.component';
 import { IssueAssignMilestoneComponent } from '../issue-assign-milestone/issue-assign-milestone.component';
 import { State } from 'src/app/shared/enums/state';
+import { Comment } from 'src/app/models/comment.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { CreateComment } from 'src/app/models/create-comment.model';
+import { CommentUpdateDialogComponent } from '../../comment-update-dialog/comment-update-dialog.component';
 
 @Component({
   selector: 'app-issue-details',
@@ -26,19 +30,26 @@ export class IssueDetailsComponent implements OnInit {
   issue: Issue;
   milestones: Milestone[] = [];
   collaborators: User[] = [];
+  comments: Comment[] = [];
+  commentForm: FormGroup;
+  user: any;
 
   constructor(private route: ActivatedRoute, private location: Location, private fb: FormBuilder, private issueService: IssueService, private milestoneService: MilestoneService,
-    private repositoryService: RepoService, private toastrService: ToastrService, public dialog: MatDialog) {
+    private repositoryService: RepoService, private toastrService: ToastrService, public dialog: MatDialog, private authService: AuthService) {
     this.repo_id = this.route.snapshot.params.repo_id;
     this.issue_id = this.route.snapshot.params.issue_id;
   }
 
   ngOnInit(): void {
+    this.user = this.authService.getCurrentUser();
     this.getIssue(this.issue_id);
+    this.getComments(this.issue_id);
     this.getMilestonesForRepository(this.repo_id);
     this.getRepositoryCollaborators(this.repo_id);
 
-    console.log(this.issue);
+    this.commentForm = this.fb.group({
+      'content': ['', [Validators.required]]
+    });
   }
 
   getIssue(issue_id: number) {
@@ -51,6 +62,16 @@ export class IssueDetailsComponent implements OnInit {
       });
 
 
+  }
+
+  getComments(issue_id) {
+    this.issueService.getCommentsForIssue(issue_id).subscribe(
+      (comments: Comment[]) => {
+        this.comments = comments;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.error);
+      });
   }
 
   getMilestonesForRepository(repoId) {
@@ -140,6 +161,62 @@ export class IssueDetailsComponent implements OnInit {
 
   public get state(): typeof State {
     return State;
+  }
+
+  get content(): AbstractControl {
+    return this.commentForm.get('content')
+  }
+
+  onCommentSubmit() {
+    if (this.commentForm?.valid) {
+      const date = new Date().toISOString().slice(0, 10);
+
+      if (this.user !== undefined) {
+        const newComment = new CreateComment(this.user.username, this.content.value, date);
+        this.issueService.submitComment(this.issue_id, newComment).subscribe(
+          (reponse) => {
+            this.toastrService.success("Comment submitted.", "Success")
+            this.commentForm.reset();
+            this.getComments(this.issue_id);
+
+          },
+          (err: HttpErrorResponse) => {
+            console.log(err.error)
+            this.toastrService.error("Could not submit comment. Please, try again.", "Error");
+          }
+        );
+      }
+
+
+    }
+  }
+
+  deleteComment(comment: Comment) {
+    this.issueService.deleteComment(comment.id).subscribe(
+      (reponse) => {
+        this.toastrService.success("Comment deleted.", "Success")
+        this.getComments(this.issue_id);
+
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err.error)
+        this.toastrService.error("Could not delete comment. Please, try again.", "Error");
+      }
+    );
+  }
+
+  updateComment(comment: Comment) {
+    console.log("update");
+    const dialogRef = this.dialog.open(CommentUpdateDialogComponent, {
+      width: '60em',
+      data: comment,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'updated') {
+        this.getComments(this.issue_id);
+      }
+    })
   }
 
 }
