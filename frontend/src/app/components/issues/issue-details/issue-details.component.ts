@@ -17,6 +17,7 @@ import { State } from 'src/app/shared/enums/state';
 import { Comment } from 'src/app/models/comment.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CreateComment } from 'src/app/models/create-comment.model';
+import { CommentUpdateDialogComponent } from '../../comment-update-dialog/comment-update-dialog.component';
 
 @Component({
   selector: 'app-issue-details',
@@ -202,6 +203,20 @@ export class IssueDetailsComponent implements OnInit {
         this.toastrService.error("Could not delete comment. Please, try again.", "Error");
       }
     );
+  }
+
+  updateComment(comment: Comment) {
+    console.log("update");
+    const dialogRef = this.dialog.open(CommentUpdateDialogComponent, {
+      width: '60em',
+      data: comment,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'updated') {
+        this.getComments(this.issue_id);
+      }
+    })
   }
 
 }

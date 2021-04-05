@@ -64,6 +64,7 @@ import { MilestoneListComponent } from './components/milestones/milestone-list/m
 import { DatePipe } from '@angular/common';
 import { IssueListComponent } from './components/issues/issue-list/issue-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { CommentUpdateDialogComponent } from './components/comment-update-dialog/comment-update-dialog.component';
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { MatSelectModule } from '@angular/material/select';
     IssueAssignMilestoneComponent,
     CollaboratorsComponent,
     SearchCollaboratorsDialogComponent,
-    IssueUpdateDialogComponent
+    IssueUpdateDialogComponent,
+    CommentUpdateDialogComponent
   ],
   imports: [
     BrowserModule,

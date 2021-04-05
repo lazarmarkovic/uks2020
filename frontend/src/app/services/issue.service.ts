@@ -51,4 +51,8 @@ export class IssueService {
   deleteComment(comment_id: number): Observable<any> {
     return this.httpClient.delete(`/api/comments/delete/${comment_id}`);
   }
+
+  updateComment(comment_id: number, comment): Observable<any> {
+    return this.httpClient.put(`/api/comments/update/${comment_id}`, comment);
+  }
 }

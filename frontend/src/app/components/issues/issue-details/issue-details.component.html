@@ -47,11 +47,14 @@
                                     </mat-card-content>
 
                                     <mat-card-actions *ngIf="comment.author.id === user.id" allign="end">
+                                        <button mat-icon-button (click)="updateComment(comment)">
+                                            <mat-icon aria-label="Edit comment">edit</mat-icon>
+                                        </button>
+
                                         <button mat-icon-button (click)="deleteComment(comment)">
                                             <mat-icon aria-label="Delete comment">delete</mat-icon>
                                         </button>
                                     </mat-card-actions>
-
                                 </mat-card>
                             </div>
                         </mat-expansion-panel>
