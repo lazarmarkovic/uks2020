@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Label } from 'src/app/models/label.model';
@@ -18,12 +18,13 @@ export class NewLabelFormComponent implements OnInit {
     private labelService: LabelService,
     private tService: ToastrService,
     public dialogRef: MatDialogRef<LabelsListComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: number
   ) { }
 
   newLabelForm = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(5)]),
-    description: new FormControl(null),
-    color: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+    description: new FormControl(''),
+    color: new FormControl(null, [Validators.required]),
   })
 
   ngOnInit(): void {
@@ -35,6 +36,7 @@ export class NewLabelFormComponent implements OnInit {
         this.newLabelForm.value.name,
         this.newLabelForm.value.description,
         this.newLabelForm.value.color,
+        this.data,
       ).subscribe((response: Label) => {
         this.tService.success("Label successfully created.", "Success");
         this.dialogRef.close('created');

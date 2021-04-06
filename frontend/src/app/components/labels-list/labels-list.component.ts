@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -26,6 +26,8 @@ export class LabelsListComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Label>([]);
   user: User = null;
   showSpinner: boolean = false;
+  localeID: string;
+  repo_id = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
@@ -41,8 +43,11 @@ export class LabelsListComponent implements OnInit, AfterViewInit {
     public activeRoute: ActivatedRoute,
     private tService: ToastrService,
     private location: Location,
-    public dialog: MatDialog,
-  ) {}
+    @Inject(LOCALE_ID) localID: string,
+    public dialog: MatDialog) {
+    this.localeID = localID;
+    this.repo_id = this.activeRoute.snapshot.params.repo_id;
+  }
 
   ngOnInit(): void {
     this.user = this.authService.getCurrentUser();
@@ -56,7 +61,7 @@ export class LabelsListComponent implements OnInit, AfterViewInit {
   getLabels(): void {
     this.showSpinner = true;
     this.labelService
-      .getAll()
+      .getLabelsForRepository(this.repo_id)
       .subscribe(
         (response: Label[]) => {
           this.dataSource = new MatTableDataSource<Label>(response);
@@ -82,6 +87,7 @@ export class LabelsListComponent implements OnInit, AfterViewInit {
   openCreateLabelDialog(): void{
     const dialogRef = this.dialog.open(NewLabelFormComponent,{
       width: '40em',
+      data: this.repo_id,
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -111,15 +117,15 @@ export class LabelsListComponent implements OnInit, AfterViewInit {
         title: "Confirm action",
         text: "Please confirm that you want to delete label: " + label.name,
         buttonName: "Delete",
-        callback: () => { this.deleteLabel(label.name) }
+        callback: () => { this.deleteLabel(label.id) }
       },
     });
   }
 
-  deleteLabel(labelName: string): void {
+  deleteLabel(labelId: number): void {
     this.showSpinner = true;
     this.labelService
-    .deleteLabel(labelName)
+    .deleteLabel(labelId)
     .subscribe(
       (resposne: any) => {
         this.tService.success('Successfully deleted label.', 'Success');

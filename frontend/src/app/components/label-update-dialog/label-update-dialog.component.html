@@ -31,11 +31,6 @@
         <mat-error *ngIf="updateLabelForm.controls['color'].hasError('required')">
           Label color is required.
         </mat-error>
-        <mat-error
-          *ngIf="updateLabelForm.controls['color'].hasError('minlength')"
-        >
-          Label color should should be hex value
-        </mat-error>
       </mat-form-field>
 
     </form>

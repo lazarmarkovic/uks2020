@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'repos/:repo/branches/:branch/commits', component: CommitListComponent },
 
   { path: 'repos/add', component: NewRepoFormComponent },
-  { path: 'labels', component: LabelsListComponent },
+  { path: 'repos/:repo_id/labels', component: LabelsListComponent, pathMatch: 'full', canActivate: [AuthGuardService]  },
   { path: 'repos/:repo_id/milestones', component: MilestoneListComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
   { path: 'repos/:repo_id/milestones/create', component: NewMilestoneFormComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
   { path: 'repos/:repo_id/issues', component: IssueListComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
