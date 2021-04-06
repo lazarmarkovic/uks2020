@@ -20,8 +20,8 @@ def index(request):
 
 
 @api_view(['POST'])
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def create_label(request):
 
     found_labels = Label.objects.filter(name=request.data["name"])
@@ -42,8 +42,8 @@ def create_label(request):
 
 
 @api_view(['GET'])
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_one_label(request, label_name):
 
     label = get_object_or_404(Label, name=label_name)
@@ -53,8 +53,8 @@ def get_one_label(request, label_name):
 
 
 @api_view(['GET'])
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_all_labels(request):
 
     labels = Label.objects.all()
@@ -64,8 +64,8 @@ def get_all_labels(request):
 
 
 @api_view(['PUT'])
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def update_label(request, label_name):
 
     if label_name != request.data["name"]:
@@ -86,8 +86,8 @@ def update_label(request, label_name):
 
 
 @api_view(['DELETE'])
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_label(request, label_name):
 
     label = get_object_or_404(Label, name=label_name)

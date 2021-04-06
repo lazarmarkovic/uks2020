@@ -5,10 +5,12 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Issue } from 'src/app/models/issue.model';
+import { Label } from 'src/app/models/label.model';
 import { Milestone } from 'src/app/models/milestone.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { IssueService } from 'src/app/services/issue.service';
+import { LabelService } from 'src/app/services/label.service';
 import { MilestoneService } from 'src/app/services/milestone.service';
 import { RepoService } from 'src/app/services/repo.service';
 import { IssueType } from 'src/app/shared/enums/issue-type';
@@ -25,18 +27,21 @@ export class NewIssueFormComponent implements OnInit {
   collaborators: User[] = [];
   assigneesId: number[] = [];
   issue_types = [IssueType.Issue, IssueType.Incident];
+  labels: Label[] = [];
+  selectedLabels: Label[] = [];
 
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private issueService: IssueService, private milestoneService: MilestoneService, private repositoryService: RepoService,
-    public activetedRoute: ActivatedRoute, private tService: ToastrService, private location: Location, private authService: AuthService) {
+    public activetedRoute: ActivatedRoute, private tService: ToastrService, private location: Location, private authService: AuthService,
+    private labelService: LabelService) {
     this.repo_id = this.activetedRoute.snapshot.params.repo_id;
   }
 
   ngOnInit(): void {
-    console.log(this.issue_types)
     this.getMilestonesForRepository(this.repo_id);
     this.getRepositoryCollaborators(this.repo_id);
+    this.getLabels();
     this.form = this.fb.group({
       'title': ['', [Validators.required, Validators.minLength(5)]],
       'description': ['', [Validators.required]],
@@ -44,8 +49,27 @@ export class NewIssueFormComponent implements OnInit {
       'serializedDate': [(new Date()).toISOString()],
       'milestone': [''],
       //'assignees': [''],
-      'type': ['', [Validators.required]]
+      'type': ['', [Validators.required]],
+      'label': ['']
     });
+  }
+
+  getLabels(){
+    this.labelService.getAll().subscribe((response: Label[]) =>{
+      this.labels = response;
+    },
+    error =>{
+      console.log('Error loading labels');
+      console.log(error);
+    });
+  }
+
+  labelSelected(label: Label){
+    if (this.selectedLabels.find((l) => l.id === label.id)) {
+      this.selectedLabels = this.selectedLabels.filter((l) => l.id !== label.id);
+    } else {
+      this.selectedLabels.push(label);
+    }
   }
 
   getMilestonesForRepository(repoId) {
@@ -89,7 +113,7 @@ export class NewIssueFormComponent implements OnInit {
              });
            } */
 
-      let newIssue = Issue.IssueWithoutId(this.title.value, this.description.value, due_date, 'OP', this.type.value.toUpperCase(), this.weight.value, null, null);
+      let newIssue = Issue.IssueWithoutId(this.title.value, this.description.value, due_date, 'OP', this.type.value.toUpperCase(), this.weight.value, null, null, this.selectedLabels);
       console.log(newIssue);
       this.issueService.createIssue(newIssue, this.repo_id).subscribe(
         (reponse: Issue) => {

@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'repository',
     'labels',
     'milestones',
-    'issues'
+    'issues',
+    'comments'
 ]
 
 MIDDLEWARE = [

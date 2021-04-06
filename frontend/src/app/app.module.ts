@@ -51,6 +51,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
 
 /* Markdown viewer*/
 import { MarkdownModule } from 'ngx-markdown';
@@ -62,6 +64,7 @@ import { MilestoneListComponent } from './components/milestones/milestone-list/m
 import { DatePipe } from '@angular/common';
 import { IssueListComponent } from './components/issues/issue-list/issue-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { CommentUpdateDialogComponent } from './components/comment-update-dialog/comment-update-dialog.component';
 
 
 @NgModule({
@@ -88,7 +91,8 @@ import { MatSelectModule } from '@angular/material/select';
     IssueAssignMilestoneComponent,
     CollaboratorsComponent,
     SearchCollaboratorsDialogComponent,
-    IssueUpdateDialogComponent
+    IssueUpdateDialogComponent,
+    CommentUpdateDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -124,7 +128,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     MatFormFieldModule,
     MatAutocompleteModule,
-    MatRadioModule
+    MatRadioModule,
+    MatExpansionModule,
+    MatChipsModule
 
   ],
   providers: [

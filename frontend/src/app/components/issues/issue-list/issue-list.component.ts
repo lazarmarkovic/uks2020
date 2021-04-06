@@ -55,6 +55,7 @@ export class IssueListComponent implements OnInit {
     this.issueService.getIssuesForRepository(repositoryId).subscribe(
       (data: Issue[]) => {
         this.issues = data;
+        console.log(this.issues)
         //this.issues.forEach(m => console.log(m));
         this.dataSource = new MatTableDataSource<Issue>(data);
         this.dataSource.paginator = this.paginator;
@@ -67,7 +68,7 @@ export class IssueListComponent implements OnInit {
 
   changeState(issue: Issue, new_state: string) {
 
-    let edited = Issue.IssueWithId(issue.title, issue.description, issue.due_date, new_state, issue.weight, issue.id, issue.type, issue.milestone);
+    let edited = Issue.IssueWithId(issue.title, issue.description, issue.due_date, new_state, issue.weight, issue.id, issue.type, issue.milestone, null, issue.labels);
     console.log(edited);
     this.issueService.updateIssue(edited).subscribe(
       data => {

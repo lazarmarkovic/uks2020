@@ -4,6 +4,8 @@ from issues.models import Issue
 from milestones.serializers.milestone_serializers import MilestoneSerializer
 from repository.serializers.repo_serializers import RepositorySerializer
 from users.serializers import UserSerializer
+from labels.serializers.label_serializers import LabelSerializer
+
 
 class IssueUpdateSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=512)
@@ -16,6 +18,8 @@ class IssueUpdateSerializer(serializers.Serializer):
     state = serializers.CharField(
         max_length=2
     )
+    labels = serializers.ListField()
+
 
 class IssueCreateSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=512)
@@ -25,12 +29,14 @@ class IssueCreateSerializer(serializers.Serializer):
     )
     due_date = serializers.DateField()
     weight = serializers.IntegerField()
+    labels = serializers.ListField()
 
 
 class IssueSerializer(serializers.ModelSerializer):
     milestone = MilestoneSerializer(many=False)
     repository = RepositorySerializer(many=False)
     assignees = UserSerializer(many=True)
+    labels = LabelSerializer(read_only=True, many=True)
 
     class Meta:
         model = Issue
@@ -44,5 +50,6 @@ class IssueSerializer(serializers.ModelSerializer):
             'assignees',
             'milestone',
             'repository',
-            'state'
+            'state',
+            'labels'
         ]

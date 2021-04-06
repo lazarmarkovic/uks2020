@@ -17,6 +17,7 @@ from issues.serializers.issue_serializers import (
     IssueSerializer,
     IssueCreateSerializer, IssueUpdateSerializer
 )
+from labels.models import Label
 
 from users.serializers import UserSerializer;
 
@@ -77,6 +78,9 @@ def create_issue(request, repository_id):
         repository=repository
     )
 
+    for lab in issue_ser.data['labels']:
+        new_issue.labels.add(Label.objects.get(id=lab.get("id")))
+
     new_issue.save()
 
     serializer = IssueSerializer(new_issue, many=False)
@@ -89,6 +93,7 @@ def create_issue(request, repository_id):
 def update_issue(request, issue_id):
     issue_ser = IssueUpdateSerializer(data=request.data)
     issue = get_object_or_404(Issue, pk=issue_id)
+    _labels = []
 
     if not issue_ser.is_valid():
         print(issue_ser.errors)
@@ -104,6 +109,12 @@ def update_issue(request, issue_id):
     issue.weight = issue_ser.data['weight']
     issue.type = issue_ser.data['type']
     issue.state = issue_ser.data['state']
+
+    for lab in issue_ser.data['labels']:
+        _labels.append(Label.objects.get(id=lab.get("id")))
+
+    issue.labels.set(_labels)
+
     issue.save()
 
     issue.refresh_from_db()
