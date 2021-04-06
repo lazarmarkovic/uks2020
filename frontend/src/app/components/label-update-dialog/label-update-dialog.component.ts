@@ -22,29 +22,30 @@ export class LabelUpdateDialogComponent implements OnInit {
   updateLabelForm = new FormGroup({
     name: new FormControl(this.data.name, [Validators.required, Validators.minLength(5)]),
     description: new FormControl(this.data.description),
-    color: new FormControl(this.data.color, [Validators.required, Validators.minLength(6)]),
+    color: new FormControl(this.data.color, [Validators.required]),
   });
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    this.labelService
-    .updateLabel(
-      this.data.name,
-      this.updateLabelForm.value.name,
-      this.updateLabelForm.value.description,
-      this.updateLabelForm.value.color
-    ).subscribe(
-      (response: any) => {
-        this.tService.success("Successfully updated label.", "Success");
-        this.dialogRef.close('updated');
-      },
-      err => {
-        console.log(err);
-        this.tService.error("Error while updating label.", "Error");
-      }
-    )
+    if (this.updateLabelForm?.valid) {
+      this.labelService
+      .updateLabel(
+        this.data.name,
+        this.updateLabelForm.value.name,
+        this.updateLabelForm.value.description,
+        this.updateLabelForm.value.color
+      ).subscribe(
+        (response: any) => {
+          this.tService.success("Successfully updated label.", "Success");
+          this.dialogRef.close('updated');
+        },
+        err => {
+          console.log(err);
+          this.tService.error("Error while updating label.", "Error");
+        }
+      )
+    }
   }
-
 }

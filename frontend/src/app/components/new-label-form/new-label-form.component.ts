@@ -23,7 +23,7 @@ export class NewLabelFormComponent implements OnInit {
   newLabelForm = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(5)]),
     description: new FormControl(null),
-    color: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+    color: new FormControl(null, [Validators.required]),
   })
 
   ngOnInit(): void {
