@@ -32,7 +32,7 @@ export class LabelUpdateDialogComponent implements OnInit {
     if (this.updateLabelForm?.valid) {
       this.labelService
       .updateLabel(
-        this.data.name,
+        this.data.id,
         this.updateLabelForm.value.name,
         this.updateLabelForm.value.description,
         this.updateLabelForm.value.color
