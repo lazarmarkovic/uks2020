@@ -48,10 +48,9 @@ export class NewMilestoneFormComponent implements OnInit {
       this.milestoneService.createMilestone(newMilestone, this.repo_id).subscribe(
         (reponse: Milestone) => {
           this.tService.success("New milestone created.", "Success")
-          this.location.back();
 
         },
-        (err: HttpErrorResponse) => this.tService.error(err.error, "Error"));
+        (err: HttpErrorResponse) => this.tService.error("Could not create milestone!", "Error"));
     }
   }
 

@@ -56,15 +56,19 @@ def delete_milestone(request, milestone_id):
 @permission_classes([IsAuthenticated])
 def create_milestone(request, repository_id):
     repository = get_object_or_404(Repository, pk=repository_id)
+    found_milestones = Milestone.objects.filter(name=request.data["name"])
+
+    if len(found_milestones) > 0:
+        raise GeneralException("Milestone with given name already exists.")
+
     milestone_ser = MilestoneCreateSerializer(data=request.data)
 
     if not milestone_ser.is_valid():
         print(milestone_ser.errors)
         raise GeneralException("Invalid request.")
 
-    found_milestones = Milestone.objects.filter(name=request.data["name"])
-    if len(found_milestones) > 0:
-        raise GeneralException("Milestone with given name already exists.")
+    if datetime.datetime.now().date() > parse_date(milestone_ser.data['end_date']):
+        raise GeneralException("Start date must be before end date.")
 
     milestone = Milestone.objects.create(
         name=milestone_ser.data['name'],
@@ -74,8 +78,6 @@ def create_milestone(request, repository_id):
         repository=repository,
         state=OPEN,
     )
-    if milestone.start_date > milestone.end_date:
-        raise GeneralException("Start date must be before end date.")
 
     milestone.save()
 
@@ -87,26 +89,26 @@ def create_milestone(request, repository_id):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def edit_milestone(request, milestone_id):
-    milestone_ser = MilestoneUpdateSerializer(data=request.data)
-
-    if not milestone_ser.is_valid():
-        print(milestone_ser.errors)
-        raise GeneralException("Invalid request.")
-
     milestone = get_object_or_404(Milestone, pk=milestone_id)
     found_milestones = Milestone.objects.filter(name=request.data["name"])
     found_milestones = found_milestones.exclude(pk=milestone_id)
 
     if len(found_milestones) > 0:
         raise GeneralException("Milestone with given name already exists.")
+    milestone_ser = MilestoneUpdateSerializer(data=request.data)
+
+    if not milestone_ser.is_valid():
+        print(milestone_ser.errors)
+        raise GeneralException("Invalid request.")
+
+    if milestone.start_date > parse_date(milestone_ser.data['end_date']):
+        raise GeneralException("Start date must be before end date.")
 
     milestone.name = milestone_ser.data['name']
     milestone.description = milestone_ser.data['description']
     milestone.end_date = parse_date(milestone_ser.data['end_date'])
     milestone.state = milestone_ser.data['state']
 
-    if milestone.start_date > milestone.end_date:
-        raise GeneralException("Start date must be before end date.")
 
     milestone.save()
 
