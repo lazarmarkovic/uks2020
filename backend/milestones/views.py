@@ -55,16 +55,16 @@ def delete_milestone(request, milestone_id):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def create_milestone(request, repository_id):
-    found_milestones = Milestone.objects.filter(name=request.data["name"])
-    if len(found_milestones) > 0:
-        raise GeneralException("Milestone with given name already exists.")
-
     repository = get_object_or_404(Repository, pk=repository_id)
     milestone_ser = MilestoneCreateSerializer(data=request.data)
 
     if not milestone_ser.is_valid():
         print(milestone_ser.errors)
         raise GeneralException("Invalid request.")
+
+    found_milestones = Milestone.objects.filter(name=request.data["name"])
+    if len(found_milestones) > 0:
+        raise GeneralException("Milestone with given name already exists.")
 
     milestone = Milestone.objects.create(
         name=milestone_ser.data['name'],
