@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth.models import User
-from django.test import TestCase, Client
+from django.test import Client
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -189,6 +189,14 @@ class TestMilestonePut(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual('Updated milestone', serializer.data['name'])
+
+    def test_put_request_with_no_data(self):
+        response = self.client.put(
+            reverse('edit_milestone', kwargs={'milestone_id': self.milestone.id}),
+            data={},
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_edit_milestone_with_bad_credentials(self):
         milestone = {
