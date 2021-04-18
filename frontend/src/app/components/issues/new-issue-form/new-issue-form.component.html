@@ -35,7 +35,7 @@
 
                         <mat-form-field class="formField" appearance="fill">
                             <mat-label>Weight</mat-label>
-                            <input class="text-input" matInput type="number" min="1" formControlName="weight"
+                            <input class="text-input" matInput type="number" min="1" max="5" formControlName="weight"
                                 value="1" />
                             <mat-error *ngIf="form.controls['weight'].hasError('required')">
                                 Issue weight is required.

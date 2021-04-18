@@ -104,6 +104,7 @@ export class MilestoneListComponent implements OnInit, AfterViewInit {
     console.log(edited);
     this.milestoneService.updateMilestone(edited).subscribe(
       data => {
+        this.milestones = data;
         this.dataSource = new MatTableDataSource<Milestone>(data);
         this.dataSource.paginator = this.paginator;
       },
