@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.utils.dateparse import parse_date
 from rest_framework import status
+from _datetime import datetime
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -68,6 +69,9 @@ def create_issue(request, repository_id):
     if len(found_issues) > 0:
         raise GeneralException("Issue with given name already exists.")
 
+    if parse_date(issue_ser.data['due_date']) < datetime.now().date():
+        raise GeneralException("Invalid due date.")
+
     new_issue = Issue.objects.create(
         title=issue_ser.data['title'],
         description=issue_ser.data['description'],
@@ -79,7 +83,11 @@ def create_issue(request, repository_id):
     )
 
     for lab in issue_ser.data['labels']:
-        new_issue.labels.add(Label.objects.get(id=lab.get("id")))
+        try:
+            new_issue.labels.add(Label.objects.get(id=lab.get("id")))
+        except:
+            new_issue.delete()
+            raise GeneralException("Label not found.")
 
     new_issue.save()
 
@@ -102,6 +110,9 @@ def update_issue(request, issue_id):
     found_issues = Issue.objects.filter(title=request.data["title"]).exclude(pk=issue_id)
     if len(found_issues) > 0:
         raise GeneralException("Issue with given name already exists.")
+
+    if parse_date(issue_ser.data['due_date']) < datetime.now().date():
+        raise GeneralException("Invalid due date.")
 
     issue.title = issue_ser.data['title']
     issue.description = issue_ser.data['description']
@@ -129,6 +140,9 @@ def update_issue(request, issue_id):
 def assign_issue_to_users(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)
     user_id_list = request.data
+
+    for user_id in user_id_list:
+        user = get_object_or_404(User, pk=user_id)
 
     if len(user_id_list) > 0:
         issue.assignees.clear()
