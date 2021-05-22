@@ -33,8 +33,10 @@ def create_comment(request, issue_id):
         issue=issue
     )
 
+    serializer = CommentSerializer(new_comment)
     new_comment.save()
-    return Response()
+
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
