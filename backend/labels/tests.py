@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, Client
+from django.test import Client
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
@@ -11,6 +11,7 @@ from labels.serializers.label_serializers import LabelSerializer
 from repository.models import Repository
 
 
+# noinspection DuplicatedCode
 class LabelTest(APITestCase):
 
     def setUp(self):
@@ -56,6 +57,7 @@ class LabelTest(APITestCase):
         self.client = Client(HTTP_AUTHORIZATION="Bearer bad")
         response = self.client.get(
             reverse("get_all_labels_for_repo", kwargs={'repo_id': self.repository.id}))
+
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_single_label_valid(self):
@@ -63,12 +65,14 @@ class LabelTest(APITestCase):
             reverse('get_one_label', kwargs={'label_id': self.label1.id}))
         label = Label.objects.get(pk=self.label1.pk)
         serializer = LabelSerializer(label)
+
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_single_label_invalid(self):
         respone = self.client.get(
             reverse('get_one_label', kwargs={'label_id': 99}))
+
         self.assertEqual(respone.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_create_label_valid_data(self):
@@ -96,6 +100,7 @@ class LabelTest(APITestCase):
                 'description': 'Test creating label with existing name',
                 'color': 'white'
             })
+
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_post_label_unauthorized(self):
@@ -106,6 +111,7 @@ class LabelTest(APITestCase):
                 'description': 'Test creating label while unauthorized',
                 'color': 'black'
             })
+
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_post_label_invalid_repository(self):
@@ -115,6 +121,7 @@ class LabelTest(APITestCase):
                 'description': 'Test creating label with invalid repository',
                 'color': 'grey'
             })
+
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_put_label_valid_data(self):
