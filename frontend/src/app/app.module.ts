@@ -65,6 +65,7 @@ import { DatePipe } from '@angular/common';
 import { IssueListComponent } from './components/issues/issue-list/issue-list.component';
 import { MatSelectModule } from '@angular/material/select';
 import { CommentUpdateDialogComponent } from './components/comment-update-dialog/comment-update-dialog.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 @NgModule({
@@ -92,7 +93,8 @@ import { CommentUpdateDialogComponent } from './components/comment-update-dialog
     CollaboratorsComponent,
     SearchCollaboratorsDialogComponent,
     IssueUpdateDialogComponent,
-    CommentUpdateDialogComponent
+    CommentUpdateDialogComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

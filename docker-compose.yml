@@ -1,0 +1,41 @@
+version: '3.2'
+services:
+    uks_db:
+        restart: always
+        image: postgres
+        container_name: uks_db
+        volumes:
+            - ./pgdata:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=devdevdev
+
+    uks_redis:
+        image: redis
+        container_name: uks_redis
+        expose:
+            - '6379'
+          
+    uks_backend:
+        container_name: uks_backend
+        build: ./backend
+        command: ["./wait_for_postgres.sh"]
+        ports:
+            - 8000:8000
+        depends_on:
+            - uks_redis
+        logging:
+            driver: "json-file"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=devdevdev
+
+    uks_frontend:
+        container_name: uks_frontend
+        build: ./frontend
+        depends_on:
+            - uks_backend
+        ports:
+            - 8080:80

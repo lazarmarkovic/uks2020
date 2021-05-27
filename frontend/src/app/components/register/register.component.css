@@ -1,0 +1,22 @@
+.vertical-center {
+  min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.formHolder {
+  padding: 2em;
+  width: 20em;
+  text-align: center;
+}
+
+.formField {
+  width: 100%;
+  margin-bottom: 0.6em;
+}
+
+.submit-btn {
+  margin-top: 0.4em;
+}
