@@ -7,7 +7,7 @@ env:
 branches:
   only:
   - master
-
+language: generic
 sudo: required
 services:
 - docker
