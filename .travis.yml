@@ -9,7 +9,6 @@ branches:
   - master
 
 sudo: required
-language: python
 services:
 - docker
 before_install:
