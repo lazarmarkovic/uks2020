@@ -14,14 +14,13 @@ import { IssueListComponent } from './components/issues/issue-list/issue-list.co
 import { NewIssueFormComponent } from './components/issues/new-issue-form/new-issue-form.component';
 import { IssueDetailsComponent } from './components/issues/issue-details/issue-details.component';
 import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
-
-
-
+import { RegisterComponent } from "./components/register/register.component";
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'repos', component: RepositoryListComponent },
   { path: 'repos/:repo/branches', component: BranchListComponent },
   { path: 'repos/:repo/branches/:branch/commits', component: CommitListComponent },

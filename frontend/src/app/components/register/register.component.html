@@ -1,0 +1,106 @@
+<div class="jumbotron vertical-center">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        <mat-card class="formHolder">
+          <h2>Register</h2>
+          <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
+            <mat-form-field class="formField">
+              <mat-label>Username</mat-label>
+              <label>
+                <input matInput type="text" formControlName="username" />
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['username'].hasError('required')"
+              >
+                Username is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['username'].hasError('minlength')"
+              >
+                Username should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Email</mat-label>
+              <label>
+                <input matInput type="email" formControlName="email" />
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['email'].hasError('required')"
+              >
+                Email is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['email'].hasError('email')"
+              >
+                Email is not formatted correctly.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Password</mat-label>
+              <label>
+                <input matInput type="password" formControlName="password" />
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['password'].hasError('required')"
+              >
+                Password is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['password'].hasError('minlength')"
+              >
+                Password should contain at least 5 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>First name</mat-label>
+              <label>
+                <input matInput type="text" formControlName="first_name" />
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['first_name'].hasError('required')"
+              >
+                First name is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['first_name'].hasError('minlength')"
+              >
+                First name should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Last name</mat-label>
+              <label>
+                <input matInput type="text" formControlName="last_name" />
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['last_name'].hasError('required')"
+              >
+                Last name is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['last_name'].hasError('minlength')"
+              >
+                Last name should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <button
+              class="submit-btn"
+              mat-raised-button
+              type="submit"
+              [disabled]="false"
+            >
+              Register user
+            </button>
+          </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

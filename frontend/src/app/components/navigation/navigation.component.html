@@ -15,6 +15,11 @@
       >
       <a
         mat-list-item
+        (click)="router.navigate(['register'], { relativeTo: activeRoute })"
+      >Register</a
+      >
+      <a
+        mat-list-item
         (click)="router.navigate(['repos/add'], { relativeTo: activeRoute })"
         >Add Repo</a
       >
