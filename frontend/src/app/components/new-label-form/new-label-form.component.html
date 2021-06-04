@@ -1,0 +1,66 @@
+<div class="jumbotron vertical-center">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-6">
+          <mat-card class="formHolder">
+            <h2>Add Label</h2>
+            <form (ngSubmit)="onSubmit()" [formGroup]="newLabelForm">
+              <mat-form-field class="formField">
+                <mat-label>Name</mat-label>
+                <input
+                  class="text-input"
+                  matInput
+                  type="text"
+                  formControlName="name"
+                />
+                <mat-error
+                  *ngIf="newLabelForm.controls['name'].hasError('required')"
+                >
+                  Label name is required.
+                </mat-error>
+                <mat-error
+                  *ngIf="newLabelForm.controls['name'].hasError('minlength')"
+                >
+                  Label name should contain at least 5 characters
+                </mat-error>
+              </mat-form-field>
+  
+              <mat-form-field class="formField">
+                <mat-label>Description (Optional)</mat-label>
+                <textarea
+                  class="text-input"
+                  matInput
+                  formControlName="description"
+                ></textarea>
+              </mat-form-field>
+
+              <mat-form-field class="formField">
+                <mat-label>Color</mat-label>
+                <input
+                  class="text-input"
+                  matInput
+                  type="text"
+                  formControlName="color"
+                />
+                <mat-error
+                  *ngIf="newLabelForm.controls['color'].hasError('required')"
+                >
+                  Label color is required.
+                </mat-error>
+              </mat-form-field>
+
+              <button
+                class="submit-btn"
+                mat-raised-button
+                type="submit"
+                [disabled]="false"
+              >
+                Create
+              </button>
+            </form>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  

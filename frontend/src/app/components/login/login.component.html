@@ -1,0 +1,55 @@
+<div class="jumbotron vertical-center">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        <mat-card class="formHolder">
+          <h2>Login</h2>
+          <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
+            <mat-form-field class="formField">
+              <mat-label>Username</mat-label>
+              <label>
+                <input matInput type="text" formControlName="username" />
+              </label>
+              <mat-error
+                *ngIf="loginForm.controls['username'].hasError('required')"
+              >
+                Username is required.
+              </mat-error>
+              <mat-error
+                *ngIf="loginForm.controls['username'].hasError('minlength')"
+              >
+                Username should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Password</mat-label>
+              <label>
+                <input matInput type="password" formControlName="password" />
+              </label>
+              <mat-error
+                *ngIf="loginForm.controls['password'].hasError('required')"
+              >
+                Password is required.
+              </mat-error>
+              <mat-error
+                *ngIf="loginForm.controls['password'].hasError('minlength')"
+              >
+                Password should contain at least 5 characters
+              </mat-error>
+            </mat-form-field>
+
+            <button
+              class="submit-btn"
+              mat-raised-button
+              type="submit"
+              [disabled]="false"
+            >
+              Log In
+            </button>
+          </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <button mat-icon-button aria-label="keyboard_backspace" (click)="back()">
+                <mat-icon>keyboard_backspace</mat-icon>
+            </button>
+
+            <table mat-table [dataSource]="dataSource">
+                <!-- name Column -->
+                <ng-container matColumnDef="title" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Title</th>
+                    <td mat-cell *matCellDef="let element">
+                        <a mat-button (click)="viewIssueDetails(element)"> {{ element.title }}</a>
+
+                    </td>
+                </ng-container>
+
+                <!-- description Column -->
+                <ng-container matColumnDef="description" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Description</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.description }}
+                    </td>
+                </ng-container>
+
+                <!-- end date Column -->
+                <ng-container matColumnDef="due_date" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Due by</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.due_date }}
+                    </td>
+                </ng-container>
+
+                <!-- state Column -->
+                <ng-container matColumnDef="state" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
+                    <td mat-cell *matCellDef="let element">
+                        <ng-container *ngIf=" element.state === stateEnum.Open.toString()">
+                            Open
+                        </ng-container>
+                        <ng-container *ngIf="element.state != stateEnum.Open.toString()">
+                            Closed
+                        </ng-container>
+
+                    </td>
+                </ng-container>
+
+                <!-- weight Column -->
+                <ng-container matColumnDef="weight" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Weight</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.weight }}
+                    </td>
+                </ng-container>
+
+                <!-- state Column -->
+                <ng-container matColumnDef="milestone" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Milestone</th>
+                    <td mat-cell *matCellDef="let element">
+                        <ng-container *ngIf=" element.milestone != null && element.milestone != undefined">
+                            {{element.milestone.name}}
+                        </ng-container>
+                    </td>
+                </ng-container>
+                <!-- Action Column -->
+                <ng-container matColumnDef="action" class="table-row">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="edit(element)">
+                            <mat-icon aria-label="Edit milestone">edit</mat-icon>
+                        </button>
+                        <ng-container *ngIf=" element.state === stateEnum.Open.toString()">
+                            <button mat-icon-button color="warn"
+                                (click)="changeState(element, stateEnum.Closed.toString())"
+                                matTooltip="Close this issue" [matTooltipPosition]="close_position.value">
+                                <span class="material-icons">
+                                    check_circle_outline
+                                </span>
+                            </button>
+                        </ng-container>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+        </div>
+        <div class="col-4">
+            <br />
+            <h2>
+                <button mat-flat-button color="primary" [routerLink]="['create']">Add new issue</button>
+            </h2>
+        </div>
+    </div>
+</div>

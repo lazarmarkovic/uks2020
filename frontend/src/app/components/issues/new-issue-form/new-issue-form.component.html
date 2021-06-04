@@ -1,0 +1,89 @@
+<div class="jumbotron vertical-center">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-6">
+                <mat-card class="formHolder">
+                    <h2>New Issue</h2>
+                    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+                        <mat-form-field class="formField">
+                            <mat-label>Title</mat-label>
+                            <input class="text-input" matInput type="text" formControlName="title" />
+                            <mat-error *ngIf="form.controls['title'].hasError('required')">
+                                Issue title is required.
+                            </mat-error>
+                            <mat-error *ngIf="form.controls['title'].hasError('minlength')">
+                                Issue title should contain at least 5 characters
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="formField">
+                            <mat-label>Description</mat-label>
+                            <textarea class="text-input" matInput formControlName="description"></textarea>
+                            <mat-error *ngIf="form.controls['description'].hasError('required')">
+                                Issue description is required.
+                            </mat-error>
+                        </mat-form-field>
+
+
+                        <mat-form-field class="formField" appearance="fill">
+                            <mat-label>Due date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="serializedDate"
+                                placeholder="Choose a date">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="formField" appearance="fill">
+                            <mat-label>Weight</mat-label>
+                            <input class="text-input" matInput type="number" min="1" max="5" formControlName="weight"
+                                value="1" />
+                            <mat-error *ngIf="form.controls['weight'].hasError('required')">
+                                Issue weight is required.
+                            </mat-error>
+                        </mat-form-field>
+
+                        <!--issue type-->
+                        <mat-form-field class="formField" appearance="fill">
+                            <mat-label>Type</mat-label>
+                            <mat-select formControlName="type">
+                                <mat-option *ngFor="let type of issue_types" [value]="type">
+                                    {{type}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.controls['type'].hasError('required')">
+                                Issue type is required.
+                            </mat-error>
+                        </mat-form-field>
+
+                        <!-- labels -->
+                        <mat-form-field class="formField" appearance="fill">
+                            <mat-label> Label </mat-label>
+                            <mat-select fromControlName="label">
+                                <mat-option *ngFor="let label of labels" [value]="label" [style.color]="label.color"
+                                    (click)="labelSelected(label)">
+                                    {{label.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-label> Selected Labels </mat-label>
+                        <mat-chip-list class="inline-list" fromControlName="label">
+                            <mat-chip *ngFor="let selectedLabel of selectedLabels" [selectable]="false"
+                                [ngStyle]="{ backgroundColor: selectedLabel.color }">
+                                {{selectedLabel.name}}
+                            </mat-chip>
+                        </mat-chip-list>
+
+                        <button mat-raised-button (click)="cancel()">
+                            Cancel
+                        </button>
+                        <button class="submit-btn" mat-raised-button type="submit" [disabled]="!form.valid">
+                            Submit
+                        </button>
+
+                    </form>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

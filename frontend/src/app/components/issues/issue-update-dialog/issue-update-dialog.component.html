@@ -1,0 +1,81 @@
+<h1 mat-dialog-title>Update issue</h1>
+<div class="dialog-content" mat-dialog-content>
+    <div class="container">
+        <form (ngSubmit)="onSubmit()" [formGroup]="form">
+            <mat-form-field class="formField">
+                <mat-label>Title</mat-label>
+                <input class="text-input" matInput type="text" formControlName="name" />
+                <mat-error *ngIf="form.controls['name'].hasError('required')">
+                    Issue title is required.
+                </mat-error>
+                <mat-error *ngIf="form.controls['name'].hasError('minlength')">
+                    Issue title should contain at least 5 characters
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+                <mat-label>Description</mat-label>
+                <textarea cdkTextareaAutosize class="text-input" matInput formControlName="description"></textarea>
+                <mat-error *ngIf="form.controls['description'].hasError('required')">
+                    Issue description is required.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField" appearance="fill">
+                <mat-label>Due date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="serializedDate" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="form.controls['serializedDate'].hasError('required')">
+                    Issue due date is required.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField" appearance="fill">
+                <mat-label>Weight</mat-label>
+                <input class="text-input" matInput type="number" min="1" formControlName="weight" value="1" />
+                <mat-error *ngIf="form.controls['weight'].hasError('required')">
+                    Issue weight is required.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField" appearance="fill">
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="type">
+                    <mat-option *ngFor="let type of issue_types" [value]="type">
+                        {{type}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.controls['type'].hasError('required')">
+                    Issue type is required.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField" appearance="fill">
+                <mat-label> Label </mat-label>
+                <mat-select fromControlName="label">
+                    <mat-option *ngFor="let label of labels" [value]="label" [style.color]="label.color"
+                        (click)="labelSelected(label)">
+                        {{label.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-label> Selected Labels </mat-label>
+            <mat-chip-list class="inline-list" fromControlName="label">
+                <mat-chip *ngFor="let selectedLabel of selectedLabels" [selectable]="false"
+                    [ngStyle]="{ backgroundColor: selectedLabel.color }">
+                    {{selectedLabel.name}}
+                </mat-chip>
+            </mat-chip-list>
+
+        </form>
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onSubmit()" [disabled]="!form.valid">Submit</button>
+    <button mat-button [mat-dialog-close]="'canceled'" cdkFocusInitial>
+        Cancel
+    </button>
+</div>

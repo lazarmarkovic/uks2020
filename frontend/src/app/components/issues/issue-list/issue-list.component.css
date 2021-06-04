@@ -1,0 +1,11 @@
+.table-row {
+  padding-left: 2em;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-list-base.inline-list {
+  display: flex;
+}
