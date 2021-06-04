@@ -16,3 +16,5 @@ ADD . /code
 
 RUN ["chmod", "+x", "wait_for_postgres.sh"]
 RUN ["chmod", "+x", "start.sh"]
+
+ENTRYPOINT ["./wait_for_postgres.sh"]
