@@ -7,7 +7,7 @@ env:
 branches:
   only:
   - master
-  
+
 sudo: required
 language: python
 services:
@@ -17,5 +17,6 @@ before_install:
 after_success:
 - docker build -t $DOCKER_HUB_USERNAME/uks_backend ./backend
 - docker push $DOCKER_HUB_USERNAME/uks_backend:latest
+
 - docker build -t $DOCKER_HUB_USERNAME/uks_frontend ./frontend
 - docker push $DOCKER_HUB_USERNAME/uks_frontend:latest
