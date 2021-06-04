@@ -19,7 +19,7 @@ services:
             - "6379"
           
     uks_backend:
-        image: lazarmarkovic/uks_backend:latest
+        image: lazamarkovic/uks_backend:latest
         container_name: uks_backend
         labels:
             com.example.service: "web"
@@ -40,7 +40,7 @@ services:
             - POSTGRES_PASSWORD=devdevdev
 
     uks_frontend:
-        image: lazarmarkovic/uks_frontend:latest
+        image: lazamarkovic/uks_frontend:latest
         container_name: uks_frontend
         depends_on:
             - uks_backend
