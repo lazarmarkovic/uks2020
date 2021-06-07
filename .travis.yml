@@ -3,30 +3,38 @@ env:
   - secure: KxYphBUiIm0d9vxv+JV/6kO6TJdA6/hJ421x1l5bswZHOZLg0ZzmxeyLmcs4te/IoH+Foja5ROyXpPWNPfNIdURxOdxhuva+Dhkdg8SVn3q+a9q6JgoYFQC39f/dMmXZZSp97zJtV0Gu3H3YsBtqfgxglMpFZXrAL7erR2GTchEaAfaz5D5LjztolNKAEKieb03yWbM+mtj9I11SVW6WP8ICezCfT9bNCjsP0J02SLTLnzl6SS2+DHGteFcpte52Td4sQDteaDmh3jiDf3hPrWn+nqWSuatNG9eJZJLySAuYirdA3mG5PAZ14/L6bAGlw9X64ORb3XIixrRdvsJtzPASbWYdPJaYy2Wu29Vi8Rb3Nx+RKSQdWAo8CD6FZ9ES7Sa/Sj8jmVJi4Qqo957NN+7d7hd1sD21i1EV69Fh/SGaZVwfNeXwvZIe77EErvAhNEq+ue2e83TkVsvscZvCyhuvev5ZYd+YZUvRjfndt4/vPyj+xOKkMc75c8uVVd0v/+aANF4bMWz+FAM4hk+lG/YGD06idkKQVfmzngEWXeLHHQf8W3Q5Sz7z42GQ1TT5FRjfBQCAismTDMTXQgwuGVwBgBujeDmJVAgCJQt+qfjCdybnqm9Umy8A1sN3U+eV6U2qIkuaNCWjQNIAr2xh2oRx1BLyuGVE+ezFSTkJVlw=
   - secure: Z5+ScE0JojenuamhcrxxIXP0lEc3iY+4ZWq2ISBa2eCG5K0owYlcE2bTIeD5FjiCoeII5PGyN+mT4XtF+WzTA/8ObbZne5/FeoOMlLgCXkfHZTBkseCX5o97YtdL06EDT7J0OsHBWii7uMBV3LWVzyzQvyl75XtNUoF4hZERPN5qolL0MO10epFEaQPH/U2RlWYEKzsjRUkOAIQ0ZXwtCI5sQDwezEGYNLC4Mk4rCdY4HZQhnWsoS9x398It/7SeK0vjhHTC9fpMarY2HkozqyD+JuMG3h7H1b+wFBBIlPsVmjVtmy2M3pnT4ZJi70GlDDBNVvH7zyelWa0/dhusdoSoBoUjTwwnBhQAXOeu5p7C090v0VdyfPV4lNBpuuigYqLgB+F7Ez2Yd50qST6UL29cHECcOfjUspWzPLMggajUY4WHeEvK+H2gDv3Y/ehxl3w+J7lIVkVBdUZL+y4a2AtVYUeMA03kbe5Fygv5NwMi1rHun0+D+4wcuEAxNIjKTIOyXsju36T5bAfH6uOnERifZhR4Oo/g6bmUwThA4sbmY0JWZDiS+LBK4ch9G3Pt+8PqldmwfgXAgqvELGTgPwNoJxNJw7+gyelqfFY6flQZQutNegT1sgVtI0HQqgwGITyt1XUNQmdlC9gmxmLKa1Kx6nNlhz0ObdJQBwpq1RQ=
   - secure: ZoO/1DzLnzbQkzsglvDDph9Tk5xL9Zf/NdiXI4S2jz3cx25HPTV2e4bNmkwiJ4d/wFUTKUSL0wBnRcbb+wDBIZCKRgCPplBo5xgoodIFMSxKtkYMNfo3Nlai/qg183fnbU+vh0vZjU4d9NuGkwp6MyeKrAyRDTGeiQc4h9QDAGv6h9H9fMGEYnik8cH1eM4W8sYRB40aHM5ff67JcZUE0jKymWqUXpMN8rvzJcbgKoFvecf/2DGXJhmRMQRHSE0V5RZedp47kfOMIriJHqgLUTgXjkucXUfhI1o6tVtLv0tEvVQVE3jsm58pvR1zPtWSsrikxck6LNFytvKK1AvdGjzL+Kykw4RfMh811hJq/NJBGtzCHASz8qvWJ9KvtXHnhV+P/BfTEbGsjWZx9KPViwDPtAeYXZniwKI2Erzpa7QdGBhq+WuElh9tCdA7J8qSNCnyfL/iKP4UXCNoU+3bOkS2FPduH198qGk3KzpkOUaJ3E+l2pOlMuS58c12Hewm1iLPGgNZg0WUi4TUiFREAEpSzqmhohhnFtsulavrZDqf9CATLL7rlA0iZXmWr8lNKCQKiRxzE9kBU8xmJ4YVzXJPrEYl6ozTq8fPmmUdsezLy83Jb+eRIPcrKxp0GdMzmu5yzTYe3xl0pn9UD8lnMXPD4Oiv2I5RoyJq6w+x2gg=
-
 branches:
   only:
   - master
 sudo: required
-
-# Install python to run tests
+addons:
+  apt:
+    packages:
+    - sshpass
 language: python
 python:
-  - "3.8"
+- '3.8'
 install:
-  - pip install -r ./backend/requirements.txt
+- pip install -r ./backend/requirements.txt
 script:
-  - cd ./backend && python manage.py test
-  - cd ..
-
-# Build and deploy docker image
+- cd ./backend && python manage.py test
+- cd ..
 services:
 - docker
 before_install:
+- openssl aes-256-cbc -K $encrypted_dfdcfd5172af_key -iv $encrypted_dfdcfd5172af_iv
+  -in deploy_key.enc -out ./deploy_key -d
 - docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD";
 after_success:
 - docker build -t $DOCKER_HUB_USERNAME/uks_backend ./backend
 - docker push $DOCKER_HUB_USERNAME/uks_backend:latest
-
 - docker build -t $DOCKER_HUB_USERNAME/uks_frontend ./frontend
 - docker push $DOCKER_HUB_USERNAME/uks_frontend:latest
+- export SSHPASS=$DEPLOY_PASS
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: chmod 600 deploy_key && sshpass -e ssh -o StrictHostKeyChecking=no -i ./deploy_key
+    $HOST@$HOST_IP './deploy.sh'
+  on:
+    branch: master
