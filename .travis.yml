@@ -7,8 +7,18 @@ env:
 branches:
   only:
   - master
-language: generic
 sudo: required
+
+# Install python to run tests
+language: python
+python:
+  - "3.8"
+install:
+  - pip install -r ./backend/requirements.txt
+script:
+  - python tests.py
+
+# Build and deploy docker image
 services:
 - docker
 before_install:
