@@ -16,7 +16,7 @@ python:
 install:
   - pip install -r ./backend/requirements.txt
 script:
-  - python ./backend/manage.py test
+  - python ./backend/manage.py test ./backend/ --pattern="tests.py"
 
 # Build and deploy docker image
 services:
