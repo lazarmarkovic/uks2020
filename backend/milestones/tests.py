@@ -28,15 +28,15 @@ class TestMilestoneGet(APITestCase):
 
         self.milestone1 = Milestone.objects.create(name="Milestone1", description="Milestone Description",
                                                    start_date=datetime.now().date(),
-                                                   end_date=datetime(2021, 5, 5),
+                                                   end_date=datetime(2021, 12, 5),
                                                    repository=self.repository)
         self.milestone2 = Milestone.objects.create(name="Milestone2", description="Milestone Description",
                                                    start_date=datetime.now().date(),
-                                                   end_date=datetime(2021, 5, 25),
+                                                   end_date=datetime(2021, 12, 25),
                                                    repository=self.repository)
         self.milestone3 = Milestone.objects.create(name="Milestone3", description="Milestone Description",
                                                    start_date=datetime.now().date(),
-                                                   end_date=datetime(2021, 5, 25),
+                                                   end_date=datetime(2021, 12, 25),
                                                    repository=self.repository)
 
         self.repository.milestone_set.add(self.milestone1)
@@ -85,7 +85,7 @@ class TestMilestonePost(APITestCase):
 
         self.milestone = Milestone.objects.create(name="Milestone", description="Milestone Description",
                                                   start_date=datetime.now().date(),
-                                                  end_date=datetime(2020, 5, 25),
+                                                  end_date=datetime(2020, 12, 25),
                                                   repository=self.repository)
 
     def test_post_request_with_no_data(self):
@@ -99,8 +99,8 @@ class TestMilestonePost(APITestCase):
         milestone = {
             'name': 'New milestone',
             'description': 'Milestone Description',
-            'start_date': '2021-05-05',
-            'end_date': '2021-05-25'
+            'start_date': '2021-12-05',
+            'end_date': '2021-12-25'
         }
         response = self.client.post(
             reverse('create_milestone', kwargs={'repository_id': self.repository.id}),
@@ -131,7 +131,7 @@ class TestMilestonePost(APITestCase):
     def test_create_milestone_duplicate_name(self):
         milestone = Milestone(name="Milestone", description="Milestone Description 1",
                               start_date=datetime.now().date(),
-                              end_date=datetime(2020, 5, 20))
+                              end_date=datetime(2020, 12, 20))
         response = self.client.post(
             reverse('create_milestone', kwargs={'repository_id': self.repository.id}),
             data=MilestoneCreateSerializer(milestone),
@@ -142,7 +142,7 @@ class TestMilestonePost(APITestCase):
     def test_create_milestone_start_date_before_end_date(self):
         milestone = Milestone(name="Milestone2", description="Milestone Description 1",
                               start_date=datetime.now().date(),
-                              end_date=datetime(2020, 5, 20))
+                              end_date=datetime(2020, 12, 20))
         response = self.client.post(
             reverse('create_milestone', kwargs={'repository_id': self.repository.id}),
             data=MilestoneCreateSerializer(milestone),
@@ -164,19 +164,19 @@ class TestMilestonePut(APITestCase):
 
         self.milestone = Milestone.objects.create(name="Milestone", description="Milestone Description",
                                                   start_date=datetime.now().date(),
-                                                  end_date=datetime(2020, 5, 25),
+                                                  end_date=datetime(2020, 12, 25),
                                                   repository=self.repository)
         self.milestone1 = Milestone.objects.create(name="Milestone1", description="Milestone Description",
                                                    start_date=datetime.now().date(),
-                                                   end_date=datetime(2020, 5, 25),
+                                                   end_date=datetime(2020, 12, 25),
                                                    repository=self.repository)
 
     def test_edit_milestone_success(self):
         milestone = {
             'name': 'Updated milestone',
             'description': 'Milestone Description',
-            'start_date': '2021-05-05',
-            'end_date': '2021-05-25',
+            'start_date': '2021-12-05',
+            'end_date': '2021-12-25',
             'state': 'CL'
         }
         response = self.client.put(
@@ -202,8 +202,8 @@ class TestMilestonePut(APITestCase):
         milestone = {
             'name': 'Updated milestone',
             'description': 'Milestone Description',
-            'start_date': '2021-05-05',
-            'end_date': '2021-05-25',
+            'start_date': '2021-12-05',
+            'end_date': '2021-12-25',
             'state': 'CL'
         }
         self.client = Client(HTTP_AUTHORIZATION='Bearer acsfhjsdkjf')
@@ -218,8 +218,8 @@ class TestMilestonePut(APITestCase):
         milestone = {
             'name': 'Updated milestone',
             'description': 'Milestone Description',
-            'start_date': '2021-05-05',
-            'end_date': '2021-05-25',
+            'start_date': '2021-12-05',
+            'end_date': '2021-12-25',
             'state': 'CL'
         }
         response = self.client.put(
@@ -233,8 +233,8 @@ class TestMilestonePut(APITestCase):
         milestone = {
             'name': self.milestone1.name,
             'description': 'Milestone Description',
-            'start_date': '2021-05-05',
-            'end_date': '2021-05-25',
+            'start_date': '2021-12-05',
+            'end_date': '2021-12-25',
             'state': 'CL'
         }
         response = self.client.put(
@@ -248,7 +248,7 @@ class TestMilestonePut(APITestCase):
         milestone = {
             'name': 'Updated milestone',
             'description': 'Milestone Description',
-            'end_date': '2019-05-25',
+            'end_date': '2019-12-25',
             'state': 'CL'
         }
         response = self.client.put(
@@ -271,12 +271,12 @@ class TestMilestoneDelete(APITestCase):
 
         self.milestone = Milestone.objects.create(name="Milestone", description="Milestone Description",
                                                   start_date=datetime.now().date(),
-                                                  end_date=datetime(2020, 5, 25),
+                                                  end_date=datetime(2020, 12, 25),
                                                   repository=self.repository)
 
         self.milestone1 = Milestone.objects.create(name="Milestone1", description="Milestone Description",
                                                    start_date=datetime.now().date(),
-                                                   end_date=datetime(2020, 5, 25),
+                                                   end_date=datetime(2020, 12, 25),
                                                    repository=self.repository)
 
     def test_delete_milestone_not_found(self):

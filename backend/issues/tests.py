@@ -30,17 +30,17 @@ class TestIssueGet(APITestCase):
 
         self.milestone1 = Milestone.objects.create(name="Milestone1", description="Milestone Description",
                                                    start_date=datetime.now().date(),
-                                                   end_date=datetime(2021, 5, 5),
+                                                   end_date=datetime(2021, 12, 5),
                                                    repository=self.repository)
 
         self.repository.milestone_set.add(self.milestone1)
 
         self.issue1 = Issue.objects.create(title="Issue 1", description="Issue desc",
-                                           due_date=datetime(2021, 5, 15).date(),
+                                           due_date=datetime(2021, 12, 15).date(),
                                            weight=3, state=OPEN, type='ISSUE', repository=self.repository)
 
         self.issue2 = Issue.objects.create(title="Issue 2", description="Issue desc",
-                                           due_date=datetime(2021, 5, 25).date(),
+                                           due_date=datetime(2021, 12, 25).date(),
                                            weight=4, state=OPEN, type='ISSUE', repository=self.repository)
 
     def test_get_all_issues_for_repo(self):
@@ -86,11 +86,11 @@ class TestIssuePost(APITestCase):
                                                     is_private=False, user=admin)
 
         self.issue1 = Issue.objects.create(title="Issue 1", description="Issue desc",
-                                           due_date=datetime(2021, 5, 15).date(),
+                                           due_date=datetime(2021, 12, 15).date(),
                                            weight=3, state=OPEN, type='ISSUE', repository=self.repository)
 
         self.issue2 = Issue.objects.create(title="Issue 2", description="Issue desc",
-                                           due_date=datetime(2021, 5, 25).date(),
+                                           due_date=datetime(2021, 12, 25).date(),
                                            weight=4, state=OPEN, type='ISSUE', repository=self.repository)
 
         self.label_backend = Label.objects.create(name="backend", description="", color="#f51b07",
@@ -107,7 +107,7 @@ class TestIssuePost(APITestCase):
         issue = {
             'title': 'New issue',
             'description': 'Issue Description',
-            'due_date': '2021-05-25',
+            'due_date': '2021-12-25',
             'weight': 4,
             'state': 'OP',
             'labels': [
@@ -143,7 +143,7 @@ class TestIssuePost(APITestCase):
         issue = {
             'title': 'New issue',
             'description': 'Issue Description',
-            'due_date': '2021-05-25',
+            'due_date': '2021-12-25',
             'weight': 4,
             'state': 'OP',
             'labels': [
@@ -176,7 +176,7 @@ class TestIssuePost(APITestCase):
         issue = {
             'title': 'New issue',
             'description': 'Issue Description',
-            'due_date': '2021-05-25',
+            'due_date': '2021-12-25',
             'weight': 4,
             'state': 'OP',
             'labels': [],
@@ -193,7 +193,7 @@ class TestIssuePost(APITestCase):
         issue = {
             'title': 'New issue',
             'description': 'Issue Description',
-            'due_date': '2021-05-25',
+            'due_date': '2021-12-25',
             'weight': 4,
             'state': 'OP',
             'labels': [],
@@ -210,7 +210,7 @@ class TestIssuePost(APITestCase):
         issue = {
             'title': self.issue1.title,
             'description': 'Issue Description',
-            'due_date': '2021-05-25',
+            'due_date': '2021-12-25',
             'weight': 4,
             'state': 'OP',
             'labels': [],
@@ -230,7 +230,7 @@ class TestIssuePost(APITestCase):
         issue = {
             'title': 'New issue',
             'description': 'Issue Description',
-            'due_date': '2021-04-15',
+            'due_date': '2021-12-15',
             'weight': 4,
             'state': 'OP',
             'labels': [
@@ -274,17 +274,17 @@ class TestIssuePut(APITestCase):
 
         self.milestone1 = Milestone.objects.create(name="Milestone1", description="Milestone Description",
                                                    start_date=datetime.now().date(),
-                                                   end_date=datetime(2021, 5, 5),
+                                                   end_date=datetime(2021, 8, 5),
                                                    repository=self.repository)
 
         self.repository.milestone_set.add(self.milestone1)
 
         self.issue1 = Issue.objects.create(title="Issue 1", description="Issue desc",
-                                           due_date=datetime(2021, 5, 15).date(),
+                                           due_date=datetime(2021, 8, 15).date(),
                                            weight=3, state=OPEN, type='ISSUE', repository=self.repository)
 
         self.issue2 = Issue.objects.create(title="Issue 2", description="Issue desc",
-                                           due_date=datetime(2021, 5, 25).date(),
+                                           due_date=datetime(2021, 8, 25).date(),
                                            weight=4, state=OPEN, type='ISSUE', repository=self.repository)
 
     def test_put_request_with_no_data(self):
@@ -301,7 +301,7 @@ class TestIssuePut(APITestCase):
         issue = {
             'title': 'Updated issue',
             'description': 'Issue Description',
-            'due_date': '2021-05-28',
+            'due_date': '2021-12-28',
             'weight': 3,
             'state': 'CL',
             'labels': [
@@ -331,7 +331,7 @@ class TestIssuePut(APITestCase):
         issue = {
             'title': 'Updated issue',
             'description': 'Issue Description',
-            'due_date': '2021-05-28',
+            'due_date': '2021-12-28',
             'weight': 3,
             'state': 'OP',
             'labels': [],
@@ -350,7 +350,7 @@ class TestIssuePut(APITestCase):
         issue = {
             'title': 'Updated issue',
             'description': 'Issue Description',
-            'due_date': '2021-05-28',
+            'due_date': '2021-12-28',
             'weight': 3,
             'state': 'OP',
             'labels': [],
@@ -367,7 +367,7 @@ class TestIssuePut(APITestCase):
         issue = {
             'title': self.issue2.title,
             'description': 'Issue Description',
-            'due_date': '2021-05-28',
+            'due_date': '2021-12-28',
             'weight': 3,
             'state': 'OP',
             'labels': [],
@@ -384,7 +384,7 @@ class TestIssuePut(APITestCase):
         issue = {
             'title': 'Updated issue',
             'description': 'Issue Description',
-            'due_date': '2020-05-28',
+            'due_date': '2020-12-28',
             'weight': 3,
             'state': 'CL',
             'labels': [],
