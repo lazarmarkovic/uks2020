@@ -230,7 +230,7 @@ class TestIssuePost(APITestCase):
         issue = {
             'title': 'New issue',
             'description': 'Issue Description',
-            'due_date': '2021-12-15',
+            'due_date': '2022-12-15',
             'weight': 4,
             'state': 'OP',
             'labels': [
